@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Museo Diffuso del Mare — Prototipo App</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<style>
+  :root{
+    --navy:#0E2436;
+    --cream:#F2ECDD;
+    --paper:#EDE6D6;
+    --orange:#C8813A;
+    --orange2:#C97A45;
+    --grayblue:#8FA5B6;
+    --blue:#6FA8BF;
+    --serif:'Lora', Georgia, serif;
+    --sans:'Inter', 'Helvetica Neue', sans-serif;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--navy);color:var(--cream);font-family:var(--sans);}
+  .proto-banner{
+    background:var(--orange);color:var(--navy);text-align:center;
+    font-family:'DejaVu Sans Mono','Courier New',monospace;
+    font-size:11px;letter-spacing:1px;font-weight:700;
+    padding:6px 10px;position:sticky;top:0;z-index:50;
+  }
+  .phone{max-width:430px;margin:0 auto;min-height:100vh;position:relative;}
+
+  header.hero{padding:28px 20px 22px;border-bottom:1px solid rgba(200,129,58,0.35);}
+  .hero-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;}
+  .brandmark{display:flex;align-items:center;gap:8px;font-family:'DejaVu Sans Mono','Courier New',monospace;
+    font-size:10px;letter-spacing:1.2px;color:var(--orange);}
+  .brandmark .dot{width:7px;height:7px;border-radius:50%;background:var(--orange);}
+  .lang{font-size:11px;color:var(--grayblue);border:1px solid var(--grayblue);border-radius:20px;padding:3px 10px;}
+
+  h1.title{font-family:var(--serif);font-weight:700;font-size:38px;line-height:1.08;margin:0 0 10px;}
+  .subtitle{color:var(--blue);font-size:14.5px;line-height:1.5;margin:0 0 18px;max-width:340px;}
+  .hero-cta{display:flex;gap:10px;flex-wrap:wrap;}
+  .btn{
+    display:inline-flex;align-items:center;gap:6px;
+    font-family:var(--sans);font-weight:600;font-size:13.5px;
+    padding:11px 18px;border-radius:10px;text-decoration:none;cursor:pointer;border:none;
+  }
+  .btn-primary{background:var(--orange);color:var(--navy);}
+  .btn-ghost{background:transparent;color:var(--cream);border:1px solid rgba(242,236,221,0.35);}
+
+  nav.tabs{
+    display:flex;overflow-x:auto;gap:4px;padding:10px 14px;
+    background:rgba(255,255,255,0.02);position:sticky;top:29px;z-index:40;
+    border-bottom:1px solid rgba(200,129,58,0.25);
+  }
+  nav.tabs::-webkit-scrollbar{display:none;}
+  nav.tabs button{
+    flex:none;background:none;border:none;color:var(--grayblue);
+    font-family:var(--sans);font-weight:600;font-size:12.5px;
+    padding:8px 13px;border-radius:20px;cursor:pointer;white-space:nowrap;
+  }
+  nav.tabs button.active{background:var(--orange);color:var(--navy);}
+
+  section{padding:26px 20px 8px;display:none;}
+  section.active{display:block;}
+  .section-label{
+    font-family:'DejaVu Sans Mono','Courier New',monospace;font-size:10.5px;
+    letter-spacing:1.4px;color:var(--orange);margin-bottom:6px;
+  }
+  h2.section-title{font-family:var(--serif);font-size:23px;font-weight:700;margin:0 0 6px;}
+  .section-intro{color:var(--grayblue);font-size:13.5px;line-height:1.55;margin:0 0 20px;}
+
+  /* percorso */
+  .steps{display:flex;flex-direction:column;gap:0;margin-bottom:6px;}
+  .step{display:flex;gap:14px;position:relative;padding-bottom:26px;}
+  .step:last-child{padding-bottom:4px;}
+  .step-line{position:absolute;left:15px;top:32px;bottom:0;width:1px;background:rgba(143,165,182,0.35);}
+  .step:last-child .step-line{display:none;}
+  .step-dot{
+    width:32px;height:32px;border-radius:50%;background:var(--paper);color:var(--navy);
+    display:flex;align-items:center;justify-content:center;font-size:15px;flex:none;z-index:1;
+  }
+  .step-body b{display:block;font-size:14.5px;margin-bottom:2px;}
+  .step-body span{font-size:12.5px;color:var(--grayblue);}
+
+  /* cards */
+  .card{
+    background:rgba(242,236,221,0.05);border:1px solid rgba(143,165,182,0.25);
+    border-radius:14px;padding:16px 16px 15px;margin-bottom:12px;
+  }
+  .card-top{display:flex;align-items:center;gap:12px;margin-bottom:8px;}
+  .card-icon{
+    width:40px;height:40px;border-radius:50%;background:var(--paper);
+    display:flex;align-items:center;justify-content:center;font-size:19px;flex:none;
+  }
+  .card-name{font-family:var(--serif);font-weight:700;font-size:16.5px;margin:0;}
+  .card-meta{font-size:11.5px;color:var(--blue);margin:1px 0 0;}
+  .card-desc{font-size:13px;line-height:1.55;color:var(--cream);opacity:0.92;margin:0 0 10px;}
+  .card-link{font-size:12.5px;font-weight:600;color:var(--orange);text-decoration:none;}
+  .card-link.disabled{color:var(--grayblue);pointer-events:none;}
+  .badge-soon{
+    font-family:'DejaVu Sans Mono','Courier New',monospace;font-size:9.5px;letter-spacing:0.6px;
+    color:var(--grayblue);border:1px solid var(--grayblue);border-radius:10px;padding:2px 7px;margin-left:8px;
+  }
+
+  .wa-box{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    background:rgba(200,129,58,0.12);border:1px solid rgba(200,129,58,0.4);
+    border-radius:14px;padding:15px 16px;margin-top:6px;
+  }
+  .wa-box b{font-size:13.5px;display:block;}
+  .wa-box span{font-size:12px;color:var(--grayblue);}
+
+  .event-card{
+    background:var(--paper);color:var(--navy);border-radius:16px;padding:20px;margin-bottom:16px;
+  }
+  .event-card .when{font-family:'DejaVu Sans Mono','Courier New',monospace;font-size:11px;letter-spacing:1px;color:var(--orange2);}
+  .event-card h3{font-family:var(--serif);font-size:20px;margin:6px 0 8px;}
+  .event-card p{font-size:13px;line-height:1.55;margin:0;}
+
+  footer{padding:30px 20px 40px;text-align:center;}
+  footer p{font-size:10.5px;color:var(--grayblue);line-height:1.7;margin:0;}
+  footer .credit-line{font-style:italic;}
+  .divider{height:1px;background:rgba(200,129,58,0.3);margin:22px 0;}
+
+  #map{
+    width:100%;height:280px;border-radius:14px;overflow:hidden;
+    border:1px solid rgba(143,165,182,0.3);margin-bottom:12px;
+  }
+  .leaflet-popup-content-wrapper{background:var(--navy);color:var(--cream);border-radius:10px;}
+  .leaflet-popup-tip{background:var(--navy);}
+  .leaflet-popup-content{margin:10px 12px;font-family:var(--sans);}
+  .leaflet-popup-content b{font-family:var(--serif);display:block;font-size:14px;margin-bottom:3px;}
+  .leaflet-popup-content a{color:var(--orange);font-size:12px;font-weight:600;text-decoration:none;}
+  .mk-stop{
+    width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-size:14px;box-shadow:0 1px 4px rgba(0,0,0,0.4);border:2px solid var(--navy);
+  }
+  .mk-fish{background:var(--paper);}
+  .mk-storia{background:var(--blue);}
+  .mk-anchor{background:var(--orange);}
+  .mk-evento{background:var(--orange2);}
+  .map-legend{display:flex;flex-wrap:wrap;gap:12px;margin:2px 0 18px;font-size:11px;color:var(--grayblue);}
+  .map-legend span{display:inline-flex;align-items:center;gap:5px;}
+  .map-legend i{width:9px;height:9px;border-radius:50%;display:inline-block;}
+  .note-box{
+    background:rgba(143,165,182,0.1);border:1px solid rgba(143,165,182,0.3);
+    border-radius:10px;padding:11px 13px;font-size:11.5px;line-height:1.5;color:var(--grayblue);margin-bottom:16px;
+  }
+  .map-wrap{position:relative;}
+  .locate-btn{
+    position:absolute;bottom:12px;right:12px;z-index:10;
+    background:var(--navy);color:var(--cream);border:1px solid var(--orange);
+    border-radius:22px;padding:9px 14px;font-family:var(--sans);font-weight:600;font-size:12px;
+    display:flex;align-items:center;gap:6px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.35);
+  }
+  .locate-btn.loading{opacity:0.6;}
+  .user-mk{
+    width:16px;height:16px;border-radius:50%;background:#3B82F6;border:3px solid #fff;
+    box-shadow:0 0 0 5px rgba(59,130,246,0.35);
+  }
+  .nearest-box{
+    display:none;background:rgba(59,130,246,0.12);border:1px solid rgba(59,130,246,0.4);
+    border-radius:10px;padding:11px 13px;font-size:12.5px;line-height:1.5;margin-bottom:16px;
+  }
+  .nearest-box.show{display:block;}
+  .nearest-box b{color:#8ab4f8;}
+</style>
+</head>
+<body>
+
+<div class="proto-banner">PROTOTIPO — demo di lavoro, non versione finale</div>
+
+<div class="phone">
+
+  <header class="hero">
+    <div class="hero-top">
+      <div class="brandmark"><span class="dot"></span>MUSEO DIFFUSO DEL MARE</div>
+      <div class="lang">IT</div>
+    </div>
+    <h1 class="title">Il mare di<br>Riposto, raccontato.</h1>
+    <p class="subtitle">Un percorso naturalistico-educativo permanente lungo il litorale jonico etneo, tra il porto e il belvedere di Torre Archirafi.</p>
+    <div class="hero-cta">
+      <button class="btn btn-primary" onclick="showTab('percorso')">Scopri il percorso</button>
+      <button class="btn btn-ghost" onclick="showTab('evento')">Evento 25 luglio</button>
+    </div>
+  </header>
+
+  <nav class="tabs" id="tabs">
+    <button data-tab="percorso" class="active" onclick="showTab('percorso')">Percorso</button>
+    <button data-tab="specie" onclick="showTab('specie')">Le Specie</button>
+    <button data-tab="storia" onclick="showTab('storia')">La Storia</button>
+    <button data-tab="pescatori" onclick="showTab('pescatori')">I Pescatori</button>
+    <button data-tab="evento" onclick="showTab('evento')">Evento</button>
+  </nav>
+
+  <!-- PERCORSO -->
+  <section id="percorso" class="active">
+    <div class="section-label">IL MUSEO DIFFUSO</div>
+    <h2 class="section-title">Un museo senza muri</h2>
+    <p class="section-intro">Non ha orari né biglietti: è il lungomare stesso a diventare museo. Una tappa ogni 300 metri circa, dal porto fino a Palazzo Vigo — un pannello, un QR, una scheda.</p>
+
+    <div class="map-wrap">
+      <div id="map"></div>
+      <button class="locate-btn" id="locate-btn" onclick="locateMe()">📍 La mia posizione</button>
+    </div>
+    <div class="nearest-box" id="nearest-box"></div>
+    <div class="map-legend">
+      <span><i style="background:var(--orange)"></i>Porto (partenza)</span>
+      <span><i style="background:var(--paper)"></i>Specie</span>
+      <span><i style="background:var(--blue)"></i>Percorso storico</span>
+      <span><i style="background:var(--orange2)"></i>Palazzo Vigo (arrivo)</span>
+    </div>
+
+    <div class="note-box">📍 Posizioni stimate lungo il Lungomare Edoardo Pantano, calcolate ogni ~300m tra il porto e Palazzo Vigo (coordinate reali). Il Percorso Storico di Giusy è segnato vicino al porto, dove il suo itinerario (dal Santuario della Chiesa della Lettera) raggiunge il lungomare alla Chiesa del Carmine — il suo percorso vero e proprio si snoda nel centro antico, non sul lungomare. Ordine e posizione dei pannelli specie da confermare con Michele — facile da correggere nell'elenco <code>stops</code> nel codice.</div>
+
+    <div class="steps" id="steps-list"></div>
+  </section>
+
+  <!-- SPECIE -->
+  <section id="specie">
+    <div class="section-label">LE SEI SPECIE</div>
+    <h2 class="section-title">Chi vive in questo mare</h2>
+    <p class="section-intro">Sei specie emblematiche del litorale jonico etneo, raccontate con la scienza e con la voce dei pescatori di Riposto.</p>
+    <div id="specie-list"></div>
+  </section>
+
+  <!-- STORIA -->
+  <section id="storia">
+    <div class="section-label">IL PERCORSO STORICO</div>
+    <h2 class="section-title">La memoria del porto</h2>
+    <p class="section-intro">Al percorso naturalistico si affianca un secondo itinerario, dedicato alla storia di Riposto e del suo porto.</p>
+
+    <div class="card">
+      <div class="card-top">
+        <div class="card-icon">⛪</div>
+        <div><p class="card-name">Percorso Storico</p><p class="card-meta">A cura di Giusy Bonaccorso</p></div>
+      </div>
+      <p class="card-desc">Quattro tappe dalla Chiesa della Lettera alla Chiesa del Carmine, costeggiando il porto — dalla tesi di laurea di Giusy Bonaccorso (Genova, 2025).</p>
+      <a class="card-link" href="https://titanium-memory-f5d.notion.site/RIPOSTO-39baf2a3c03280898d84f86fc7ea8a7b" target="_blank">Scopri il percorso storico →</a>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <div class="card-icon">🗼</div>
+        <div><p class="card-name">Sistema difensivo costiero <span class="badge-soon">IN PUBBLICAZIONE</span></p><p class="card-meta">Arch. Santa Sorbello</p></div>
+      </div>
+      <p class="card-desc">Le torri di guardia della Contea di Mascali/Riposto dal XII al XX secolo, a cura dell'arch. Santa Sorbello, già Soprintendenza per i Beni Culturali e Ambientali di Catania.</p>
+      <a class="card-link disabled" href="#">Scheda in arrivo →</a>
+    </div>
+
+    <div class="card">
+      <div class="card-top">
+        <div class="card-icon">⚒️</div>
+        <div><p class="card-name">Imprenditori <span class="badge-soon">IN PUBBLICAZIONE</span></p><p class="card-meta">Cantieri, armatori, vino e botti</p></div>
+      </div>
+      <p class="card-desc">Tra Otto e Novecento il porto di Riposto ospitava cantieri navali e compagnie di navigazione — e imbarcava il vino etneo verso il resto del Mediterraneo.</p>
+      <a class="card-link disabled" href="#">Scheda in arrivo →</a>
+    </div>
+  </section>
+
+  <!-- PESCATORI -->
+  <section id="pescatori">
+    <div class="section-label">LA VOCE DEI PESCATORI</div>
+    <h2 class="section-title">Chi il mare lo vive ogni giorno</h2>
+    <p class="section-intro">Il museo cresce anche grazie ai pescatori di Riposto, che condividono le proprie foto — barche, reti, pescato, momenti di vita di bordo, anche scatti d'epoca in bianco e nero.</p>
+
+    <div class="card">
+      <div class="card-top">
+        <div class="card-icon">📸</div>
+        <div><p class="card-name">I Pescatori Raccontano</p><p class="card-meta">Galleria collettiva, senza nomi individuali</p></div>
+      </div>
+      <p class="card-desc">Una raccolta di immagini vere della pesca a Riposto, per raccontare il mestiere di ogni giorno — non un archivio di ricordi personali, ma un ritratto collettivo.</p>
+      <a class="card-link" href="https://debonair-stilton-413.notion.site/I-Pescatori-Raccontano-39784f34c2198198be10f22f1ca73dd2" target="_blank">Guarda la galleria →</a>
+    </div>
+
+    <div class="wa-box">
+      <div><b>Hai una foto da condividere?</b><span>Mandala su WhatsApp</span></div>
+      <a class="btn btn-primary" style="padding:9px 14px;font-size:12.5px;" href="https://wa.me/393428302287" target="_blank">342 830 2287</a>
+    </div>
+  </section>
+
+  <!-- EVENTO -->
+  <section id="evento">
+    <div class="section-label">SERATA DI APERTURA</div>
+    <h2 class="section-title">Stasera il mare entra a Palazzo Vigo</h2>
+
+    <div class="event-card">
+      <div class="when">SABATO 25 LUGLIO · 19:30 – 22:30</div>
+      <h3>Cortile di Palazzo Vigo</h3>
+      <p>Torre Archirafi, Riposto. Ingresso libero. Sei pesci da scoprire, gli acquari, i pannelli del progetto e la barca dei pescatori con i loro attrezzi.</p>
+    </div>
+
+    <p class="section-intro" style="margin-top:4px;">Questo prototipo nasce proprio per questo momento: mostrare al comitato come i contenuti già pronti — pannelli, schede, foto, video, voci — potrebbero vivere in un'unica app dedicata al Museo Diffuso del Mare, invece che sparsi tra pagine Notion e un'app turistica generale.</p>
+  </section>
+
+  <footer>
+    <p>MUSEO DIFFUSO DEL MARE · LITORALE JONICO ETNEO DI RIPOSTO</p>
+    <p class="credit-line">Progetto promosso da Riposto è Mare (in via di costituzione) · con il patrocinio del Comune di Riposto</p>
+    <p>Con la partecipazione di: Proloco di Riposto, Gruppo sommozzatori di Riposto, Associazione Vatellapesca e fotolapissable — Michele Cipriano</p>
+  </footer>
+
+</div>
+
+<script>
+const specie = [
+  {icon:'🐟', name:'Suro', dial:'Sauro', sci:'Trachurus trachurus',
+   desc:'Pesce azzurro che attraversa il Ionio in grandi banchi argentati. Pescato di notte con la lampara, radunando i banchi con "u scrùsciu" — il battere dei piedi sullo scafo.',
+   url:'https://debonair-stilton-413.notion.site/38984f34c2198100b9bfc7b34b1f3a04'},
+  {icon:'🐟', name:'Palamito', dial:'Palamitu', sci:'Sarda sarda',
+   desc:'Predatore veloce che arriva a fine estate seguendo il pesce azzurro. Pescato con traina e palamiti notturni; la carne rossa veniva scambiata per tonno al mercato.',
+   url:'https://debonair-stilton-413.notion.site/38984f34c219810d8f27d671ef5e713e'},
+  {icon:'🐡', name:'Scorfano', dial:'Cipudda / Scrofina', sci:'Scorpaena scrofa',
+   desc:'Immobile e mimetizzato tra le rocce laviche, quasi invisibile. Spine velenose ma innocue se maneggiato con cura — la sua testa è il segreto della zuppa di pesce.',
+   url:'https://debonair-stilton-413.notion.site/38984f34c21981d8971bf216a64ba8b4'},
+  {icon:'🐟', name:'Sarago', dial:'Saragu', sci:'Diplodus sargus',
+   desc:'"Maliziato": tra i pesci più difficili da ingannare con lenza o conzo. Vive tra le rocce e le praterie di posidonia del litorale.',
+   url:'https://debonair-stilton-413.notion.site/38984f34c21981098c53f2743eb35c08'},
+  {icon:'🐙', name:'Polpo', dial:'Puppu', sci:'Octopus vulgaris',
+   desc:'"Ammarrato" alla sua tana come una barca alla sua cima. Intelligente e mimetico, pescato tradizionalmente con lampara, fiocina e nasse.',
+   url:'https://debonair-stilton-413.notion.site/38984f34c21981f99112f983630daa22'},
+  {icon:'🦑', name:'Seppia', dial:'Siccia', sci:'Sepia officinalis',
+   desc:'In primavera si avvicina a riva per deporre le uova tra la posidonia. Nota per l\'inchiostro nero e per l\'osso interno che il mare lascia in spiaggia dopo le mareggiate.',
+   url:'https://debonair-stilton-413.notion.site/38984f34c219818db22bff27383aa108'},
+];
+
+// Tappe reali lungo il Lungomare Edoardo Pantano, dal porto di Riposto (37.7307, 15.2103)
+// a Palazzo Vigo/Torre Archirafi (37.710558, 15.218403) — distanza reale ~2.35km,
+// interpolate ogni ~300m. Ordine dei pannelli PLACEHOLDER: da confermare con Michele.
+const stops = [
+  {dist:0,    type:'anchor', name:'Porto di Riposto', lat:37.7307,   lng:15.2103,  desc:'Punto di partenza del percorso'},
+  {dist:150,  type:'storia', name:'Percorso Storico', lat:37.729412, lng:15.210818,
+   desc:'Giusy Bonaccorso — dal Santuario della Chiesa della Lettera, 4 tappe fino al lungomare alla Chiesa del Carmine',
+   url:'https://titanium-memory-f5d.notion.site/RIPOSTO-39baf2a3c03280898d84f86fc7ea8a7b'},
+  {dist:450,  type:'fish',   name:'Suro',      lat:37.726836, lng:15.211854, ref:'Suro'},
+  {dist:763,  type:'fish',   name:'Palamito',  lat:37.724149, lng:15.212936, ref:'Palamito'},
+  {dist:1076, type:'fish',   name:'Scorfano',  lat:37.721461, lng:15.214018, ref:'Scorfano'},
+  {dist:1389, type:'fish',   name:'Sarago',    lat:37.718775, lng:15.215098, ref:'Sarago'},
+  {dist:1702, type:'fish',   name:'Polpo',     lat:37.716088, lng:15.216179, ref:'Polpo'},
+  {dist:2015, type:'fish',   name:'Seppia',    lat:37.713401, lng:15.217260, ref:'Seppia'},
+  {dist:2346, type:'evento', name:'Palazzo Vigo', lat:37.710558, lng:15.218403, desc:'Cortile — serata del 25 luglio'},
+];
+
+const list = document.getElementById('specie-list');
+list.innerHTML = specie.map(s => `
+  <div class="card">
+    <div class="card-top">
+      <div class="card-icon">${s.icon}</div>
+      <div><p class="card-name">${s.name} <span style="font-weight:400;color:var(--grayblue);font-size:13px;">— ${s.dial}</span></p><p class="card-meta"><i>${s.sci}</i></p></div>
+    </div>
+    <p class="card-desc">${s.desc}</p>
+    <a class="card-link" href="${s.url}" target="_blank">Scopri la scheda →</a>
+  </div>
+`).join('');
+
+// link "fish" stops to their scheda url via the specie array
+stops.forEach(s => {
+  if (s.type === 'fish') {
+    const sp = specie.find(x => x.name === s.ref);
+    if (sp) { s.url = sp.url; s.desc = sp.dial + ' — ' + sp.sci; s.icon = sp.icon; }
+  }
+});
+
+const iconFor = {anchor:'⚓', fish:'🐟', storia:'🏛️', evento:'🌊'};
+const classFor = {anchor:'mk-anchor', fish:'mk-fish', storia:'mk-storia', evento:'mk-evento'};
+
+// steps list (compact, used as fallback / accessible list under the map)
+const stepsEl = document.getElementById('steps-list');
+stepsEl.innerHTML = stops.map((s,i) => `
+  <div class="step">
+    ${i < stops.length-1 ? '<div class="step-line"></div>' : ''}
+    <div class="step-dot">${s.icon || iconFor[s.type]}</div>
+    <div class="step-body"><b>${s.name}</b><span>${s.dist}m dal porto${s.desc ? ' — ' + s.desc : ''}</span></div>
+  </div>
+`).join('');
+
+// map
+let map;
+function initMap(){
+  if (map || typeof L === 'undefined') return;
+  map = L.map('map', {zoomControl:false, attributionControl:false});
+  L.tileLayer('https://a.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png', {maxZoom:19}).addTo(map);
+
+  const bounds = [];
+  stops.forEach(s => {
+    bounds.push([s.lat, s.lng]);
+    const marker = L.marker([s.lat, s.lng], {
+      icon: L.divIcon({
+        className:'',
+        html:`<div class="mk-stop ${classFor[s.type]}">${s.icon || iconFor[s.type]}</div>`,
+        iconSize:[30,30], iconAnchor:[15,15]
+      })
+    }).addTo(map);
+    const linkHtml = s.url ? `<a href="${s.url}" target="_blank">Scopri la scheda →</a>` : '';
+    marker.bindPopup(`<b>${s.name}</b>${s.desc || ''}<br>${s.dist}m dal porto<br>${linkHtml}`);
+  });
+  map.fitBounds(bounds, {padding:[24,24]});
+
+  // linea del percorso
+  L.polyline(bounds, {color:'#C8813A', weight:2.5, opacity:0.7, dashArray:'1,6'}).addTo(map);
+}
+
+function haversine(lat1,lng1,lat2,lng2){
+  const R = 6371000, toRad = d => d*Math.PI/180;
+  const dLat = toRad(lat2-lat1), dLng = toRad(lng2-lng1);
+  const a = Math.sin(dLat/2)**2 + Math.cos(toRad(lat1))*Math.cos(toRad(lat2))*Math.sin(dLng/2)**2;
+  return R * 2*Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+function fmtDist(d){ return d < 1000 ? Math.round(d)+' m' : (d/1000).toFixed(1)+' km'; }
+
+let userMarker;
+function locateMe(){
+  if (!navigator.geolocation){
+    alert('Geolocalizzazione non disponibile su questo browser.');
+    return;
+  }
+  const btn = document.getElementById('locate-btn');
+  btn.classList.add('loading'); btn.textContent = '📍 Cerco la posizione…';
+  navigator.geolocation.getCurrentPosition(pos => {
+    btn.classList.remove('loading'); btn.textContent = '📍 La mia posizione';
+    const {latitude:lat, longitude:lng} = pos.coords;
+    if (userMarker) map.removeLayer(userMarker);
+    userMarker = L.marker([lat,lng], {icon: L.divIcon({className:'', html:'<div class="user-mk"></div>', iconSize:[16,16], iconAnchor:[8,8]})}).addTo(map);
+    map.setView([lat,lng], 16);
+
+    let nearest = null, nearestD = Infinity;
+    stops.forEach(s => {
+      const d = haversine(lat,lng,s.lat,s.lng);
+      if (d < nearestD){ nearestD = d; nearest = s; }
+    });
+    const box = document.getElementById('nearest-box');
+    if (nearest){
+      box.classList.add('show');
+      box.innerHTML = `Tappa più vicina: <b>${nearest.name}</b> — a circa ${fmtDist(nearestD)}`;
+    }
+  }, err => {
+    btn.classList.remove('loading'); btn.textContent = '📍 La mia posizione';
+    alert('Non riesco ad accedere alla tua posizione. Controlla i permessi di localizzazione del browser.');
+  }, {enableHighAccuracy:true, timeout:10000});
+}
+
+function showTab(name){
+  document.querySelectorAll('section').forEach(s => s.classList.toggle('active', s.id === name));
+  document.querySelectorAll('nav.tabs button').forEach(b => b.classList.toggle('active', b.dataset.tab === name));
+  document.querySelector('.phone').scrollIntoView({behavior:'instant', block:'start'});
+  if (name === 'percorso') {
+    initMap();
+    setTimeout(() => { if (map) map.invalidateSize(); }, 60);
+  }
+}
+
+// percorso è la tab attiva di default al caricamento
+initMap();
+</script>
+
+</body>
+</html>
