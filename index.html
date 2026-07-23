@@ -149,10 +149,10 @@
   }
   .map-wrap{position:relative;}
   .locate-btn{
-    position:absolute;bottom:12px;right:12px;z-index:10;
+    display:flex;align-items:center;justify-content:center;gap:6px;width:100%;
     background:var(--navy);color:var(--cream);border:1px solid var(--orange);
-    border-radius:22px;padding:9px 14px;font-family:var(--sans);font-weight:600;font-size:12px;
-    display:flex;align-items:center;gap:6px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.35);
+    border-radius:10px;padding:11px 14px;font-family:var(--sans);font-weight:600;font-size:13px;
+    cursor:pointer;margin:10px 0 14px;
   }
   .locate-btn.loading{opacity:0.6;}
   .user-mk{
@@ -202,8 +202,8 @@
 
     <div class="map-wrap">
       <div id="map"></div>
-      <button class="locate-btn" id="locate-btn" onclick="locateMe()">📍 La mia posizione</button>
     </div>
+    <button class="locate-btn" id="locate-btn" onclick="locateMe()">📍 La mia posizione</button>
     <div class="nearest-box" id="nearest-box"></div>
     <div class="map-legend">
       <span><i style="background:var(--orange)"></i>Porto (partenza)</span>
@@ -417,25 +417,30 @@ function locateMe(){
   const btn = document.getElementById('locate-btn');
   btn.classList.add('loading'); btn.textContent = '📍 Cerco la posizione…';
   navigator.geolocation.getCurrentPosition(pos => {
-    btn.classList.remove('loading'); btn.textContent = '📍 La mia posizione';
-    const {latitude:lat, longitude:lng} = pos.coords;
-    if (userMarker) map.removeLayer(userMarker);
-    userMarker = L.marker([lat,lng], {icon: L.divIcon({className:'', html:'<div class="user-mk"></div>', iconSize:[16,16], iconAnchor:[8,8]})}).addTo(map);
-    map.setView([lat,lng], 16);
+    try {
+      btn.classList.remove('loading'); btn.textContent = '📍 La mia posizione';
+      const {latitude:lat, longitude:lng} = pos.coords;
+      if (!map) throw new Error('mappa non inizializzata');
+      if (userMarker) map.removeLayer(userMarker);
+      userMarker = L.marker([lat,lng], {icon: L.divIcon({className:'', html:'<div class="user-mk"></div>', iconSize:[16,16], iconAnchor:[8,8]})}).addTo(map);
+      map.setView([lat,lng], 16);
 
-    let nearest = null, nearestD = Infinity;
-    stops.forEach(s => {
-      const d = haversine(lat,lng,s.lat,s.lng);
-      if (d < nearestD){ nearestD = d; nearest = s; }
-    });
-    const box = document.getElementById('nearest-box');
-    if (nearest){
-      box.classList.add('show');
-      box.innerHTML = `Tappa più vicina: <b>${nearest.name}</b> — a circa ${fmtDist(nearestD)}`;
+      let nearest = null, nearestD = Infinity;
+      stops.forEach(s => {
+        const d = haversine(lat,lng,s.lat,s.lng);
+        if (d < nearestD){ nearestD = d; nearest = s; }
+      });
+      const box = document.getElementById('nearest-box');
+      if (nearest){
+        box.classList.add('show');
+        box.innerHTML = `Tappa più vicina: <b>${nearest.name}</b> — a circa ${fmtDist(nearestD)}`;
+      }
+    } catch(e) {
+      alert('Errore nel mostrare la posizione: ' + e.message);
     }
   }, err => {
     btn.classList.remove('loading'); btn.textContent = '📍 La mia posizione';
-    alert('Non riesco ad accedere alla tua posizione. Controlla i permessi di localizzazione del browser.');
+    alert('Non riesco ad accedere alla tua posizione (' + err.message + '). Controlla i permessi di localizzazione del browser.');
   }, {enableHighAccuracy:true, timeout:10000});
 }
 
