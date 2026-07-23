@@ -45,20 +45,15 @@
   }
   .install-x{background:none;border:none;color:var(--grayblue);font-size:16px;cursor:pointer;padding:0 2px;}
 
-  .tip-overlay{
-    display:none;position:fixed;inset:0;background:rgba(14,36,54,0.92);z-index:100;
-    align-items:center;justify-content:center;padding:24px;
+  .tip-banner{
+    display:none;align-items:center;gap:10px;background:var(--paper);color:var(--navy);
+    border-radius:12px;padding:13px 14px;margin:14px 20px 0;font-size:12.5px;line-height:1.5;
   }
-  .tip-overlay.show{display:flex;}
-  .tip-card{
-    background:var(--paper);color:var(--navy);border-radius:18px;padding:26px 22px;max-width:340px;text-align:center;
-  }
-  .tip-card .tip-icon{font-size:34px;margin-bottom:10px;}
-  .tip-card h3{font-family:var(--serif);font-size:19px;margin:0 0 10px;}
-  .tip-card p{font-size:13.5px;line-height:1.6;margin:0 0 18px;color:#3D5566;}
-  .tip-card button{
-    background:var(--navy);color:var(--cream);border:none;border-radius:10px;
-    padding:11px 22px;font-family:var(--sans);font-weight:700;font-size:13.5px;cursor:pointer;
+  .tip-banner.show{display:flex;}
+  .tip-banner .txt{flex:1;}
+  .tip-banner button{
+    flex:none;background:var(--navy);color:var(--cream);border:none;border-radius:8px;
+    padding:8px 12px;font-family:var(--sans);font-weight:700;font-size:12px;cursor:pointer;
   }
 
   header.hero{padding:28px 20px 22px;border-bottom:1px solid rgba(200,129,58,0.35);}
@@ -200,16 +195,12 @@
 </head>
 <body>
 
-<div class="tip-overlay" id="tip-overlay">
-  <div class="tip-card">
-    <div class="tip-icon">🌊</div>
-    <h3>Benvenuto nel Museo Diffuso del Mare</h3>
-    <p>Ogni pannello lungo il percorso ha un QR: aprilo per leggere la scheda della tappa. Tocca "La mia posizione" sulla mappa per vedere qual è quella più vicina a te.</p>
+<div class="phone">
+
+  <div class="tip-banner" id="tip-banner">
+    <div class="txt">🌊 Benvenuto! Ogni pannello lungo il percorso ha un QR: aprilo per leggere la scheda. Tocca "La mia posizione" sulla mappa per orientarti.</div>
     <button onclick="closeTip()">Ho capito</button>
   </div>
-</div>
-
-<div class="phone">
 
   <div class="install-banner" id="install-banner">
     <div class="txt" id="install-text">📲 Aggiungi questa app alla schermata Home per aprirla più velocemente.</div>
@@ -503,12 +494,12 @@ initMap();
 
 // --- primo avvio: piccolo aiuto una tantum ---
 function closeTip(){
-  document.getElementById('tip-overlay').classList.remove('show');
+  document.getElementById('tip-banner').classList.remove('show');
   try { localStorage.setItem('mdm_tip_v1', '1'); } catch(e){}
 }
 try {
   if (!localStorage.getItem('mdm_tip_v1')) {
-    document.getElementById('tip-overlay').classList.add('show');
+    document.getElementById('tip-banner').classList.add('show');
   }
 } catch(e){}
 
