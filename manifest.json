@@ -1,0 +1,16 @@
+{
+  "name": "Museo Diffuso del Mare",
+  "short_name": "Museo del Mare",
+  "description": "Il percorso naturalistico-educativo lungo il litorale jonico etneo di Riposto.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0E2436",
+  "theme_color": "#0E2436",
+  "lang": "it",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

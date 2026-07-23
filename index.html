@@ -3,7 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Museo Diffuso del Mare — Prototipo App</title>
+<title>Museo Diffuso del Mare</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0E2436">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Museo del Mare">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" href="icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
@@ -22,13 +30,36 @@
   }
   *{box-sizing:border-box;}
   body{margin:0;background:var(--navy);color:var(--cream);font-family:var(--sans);}
-  .proto-banner{
-    background:var(--orange);color:var(--navy);text-align:center;
-    font-family:'DejaVu Sans Mono','Courier New',monospace;
-    font-size:11px;letter-spacing:1px;font-weight:700;
-    padding:6px 10px;position:sticky;top:0;z-index:50;
-  }
   .phone{max-width:430px;margin:0 auto;min-height:100vh;position:relative;}
+
+  .install-banner{
+    display:none;align-items:center;gap:10px;background:rgba(200,129,58,0.15);
+    border:1px solid rgba(200,129,58,0.45);border-radius:12px;padding:12px 14px;margin:14px 20px 0;
+    font-size:12.5px;line-height:1.5;
+  }
+  .install-banner.show{display:flex;}
+  .install-banner .txt{flex:1;}
+  .install-banner button{
+    flex:none;background:var(--orange);color:var(--navy);border:none;border-radius:8px;
+    padding:8px 12px;font-family:var(--sans);font-weight:700;font-size:12px;cursor:pointer;
+  }
+  .install-x{background:none;border:none;color:var(--grayblue);font-size:16px;cursor:pointer;padding:0 2px;}
+
+  .tip-overlay{
+    display:none;position:fixed;inset:0;background:rgba(14,36,54,0.92);z-index:100;
+    align-items:center;justify-content:center;padding:24px;
+  }
+  .tip-overlay.show{display:flex;}
+  .tip-card{
+    background:var(--paper);color:var(--navy);border-radius:18px;padding:26px 22px;max-width:340px;text-align:center;
+  }
+  .tip-card .tip-icon{font-size:34px;margin-bottom:10px;}
+  .tip-card h3{font-family:var(--serif);font-size:19px;margin:0 0 10px;}
+  .tip-card p{font-size:13.5px;line-height:1.6;margin:0 0 18px;color:#3D5566;}
+  .tip-card button{
+    background:var(--navy);color:var(--cream);border:none;border-radius:10px;
+    padding:11px 22px;font-family:var(--sans);font-weight:700;font-size:13.5px;cursor:pointer;
+  }
 
   header.hero{padding:28px 20px 22px;border-bottom:1px solid rgba(200,129,58,0.35);}
   .hero-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;}
@@ -169,9 +200,22 @@
 </head>
 <body>
 
-<div class="proto-banner">PROTOTIPO — demo di lavoro, non versione finale</div>
+<div class="tip-overlay" id="tip-overlay">
+  <div class="tip-card">
+    <div class="tip-icon">🌊</div>
+    <h3>Benvenuto nel Museo Diffuso del Mare</h3>
+    <p>Ogni pannello lungo il percorso ha un QR: aprilo per leggere la scheda della tappa. Tocca "La mia posizione" sulla mappa per vedere qual è quella più vicina a te.</p>
+    <button onclick="closeTip()">Ho capito</button>
+  </div>
+</div>
 
 <div class="phone">
+
+  <div class="install-banner" id="install-banner">
+    <div class="txt" id="install-text">📲 Aggiungi questa app alla schermata Home per aprirla più velocemente.</div>
+    <button id="install-btn" onclick="doInstall()">Installa</button>
+    <button class="install-x" onclick="dismissInstall()">✕</button>
+  </div>
 
   <header class="hero">
     <div class="hero-top">
@@ -243,19 +287,19 @@
     <div class="card">
       <div class="card-top">
         <div class="card-icon">🗼</div>
-        <div><p class="card-name">Sistema difensivo costiero <span class="badge-soon">IN PUBBLICAZIONE</span></p><p class="card-meta">Arch. Santa Sorbello</p></div>
+        <div><p class="card-name">Sistema difensivo costiero</p><p class="card-meta">Arch. Santa Sorbello</p></div>
       </div>
       <p class="card-desc">Le torri di guardia della Contea di Mascali/Riposto dal XII al XX secolo, a cura dell'arch. Santa Sorbello, già Soprintendenza per i Beni Culturali e Ambientali di Catania.</p>
-      <a class="card-link disabled" href="#">Scheda in arrivo →</a>
+      <a class="card-link" href="https://debonair-stilton-413.notion.site/3a384f34c2198159a70be8a3bf150d71" target="_blank">Scopri la scheda →</a>
     </div>
 
     <div class="card">
       <div class="card-top">
         <div class="card-icon">⚒️</div>
-        <div><p class="card-name">Imprenditori <span class="badge-soon">IN PUBBLICAZIONE</span></p><p class="card-meta">Cantieri, armatori, vino e botti</p></div>
+        <div><p class="card-name">Imprenditori</p><p class="card-meta">Cantieri, armatori, vino e botti</p></div>
       </div>
       <p class="card-desc">Tra Otto e Novecento il porto di Riposto ospitava cantieri navali e compagnie di navigazione — e imbarcava il vino etneo verso il resto del Mediterraneo.</p>
-      <a class="card-link disabled" href="#">Scheda in arrivo →</a>
+      <a class="card-link" href="https://debonair-stilton-413.notion.site/3a384f34c21981c6bdeeed4d5581b0f7" target="_blank">Scopri la scheda →</a>
     </div>
   </section>
 
@@ -456,6 +500,53 @@ function showTab(name){
 
 // percorso è la tab attiva di default al caricamento
 initMap();
+
+// --- primo avvio: piccolo aiuto una tantum ---
+function closeTip(){
+  document.getElementById('tip-overlay').classList.remove('show');
+  try { localStorage.setItem('mdm_tip_v1', '1'); } catch(e){}
+}
+try {
+  if (!localStorage.getItem('mdm_tip_v1')) {
+    document.getElementById('tip-overlay').classList.add('show');
+  }
+} catch(e){}
+
+// --- installazione sulla home ---
+const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+let deferredInstallPrompt = null;
+
+function dismissInstall(){
+  document.getElementById('install-banner').classList.remove('show');
+  try { localStorage.setItem('mdm_install_dismissed', '1'); } catch(e){}
+}
+function doInstall(){
+  if (deferredInstallPrompt) {
+    deferredInstallPrompt.prompt();
+    deferredInstallPrompt.userChoice.finally(() => {
+      deferredInstallPrompt = null;
+      dismissInstall();
+    });
+  }
+}
+
+let installDismissed = false;
+try { installDismissed = !!localStorage.getItem('mdm_install_dismissed'); } catch(e){}
+
+if (!isStandalone && !installDismissed) {
+  if (isIOS) {
+    document.getElementById('install-text').textContent = '📲 Su iPhone: tocca Condividi e poi "Aggiungi a Home" per installare l\'app.';
+    document.getElementById('install-btn').style.display = 'none';
+    document.getElementById('install-banner').classList.add('show');
+  } else {
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredInstallPrompt = e;
+      document.getElementById('install-banner').classList.add('show');
+    });
+  }
+}
 </script>
 
 </body>
