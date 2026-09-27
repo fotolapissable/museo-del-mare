@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rilievo tappe · Museo del Mare</title>
+<meta name="theme-color" content="#0E2436">
+<meta name="robots" content="noindex">
+<link rel="icon" href="icon-192.png">
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<style>
+  :root{--navy:#0E2436;--cream:#F2ECDD;--paper:#EDE6D6;--orange:#C8813A;--orange2:#C97A45;
+    --grayblue:#8FA5B6;--blue:#6FA8BF;--green:#6FBF8A;--red:#D9695F;
+    --serif:'Lora',Georgia,serif;--sans:'Inter','Helvetica Neue',sans-serif;
+    --mono:'DejaVu Sans Mono','Courier New',monospace;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--navy);color:var(--cream);font-family:var(--sans);}
+  .phone{max-width:480px;margin:0 auto;padding:0 16px 60px;}
+  header{padding:22px 0 14px;}
+  .label{font-family:var(--mono);font-size:10.5px;letter-spacing:1.3px;color:var(--orange);}
+  h1{font-family:var(--serif);font-size:26px;margin:4px 0 4px;}
+  .muted{color:var(--grayblue);font-size:12.5px;line-height:1.5;margin:0;}
+  .gps{position:sticky;top:0;z-index:50;background:var(--navy);padding:10px 0;
+    border-bottom:1px solid rgba(200,129,58,.3);display:flex;align-items:center;gap:10px;font-size:13px;}
+  .gps .dot{width:11px;height:11px;border-radius:50%;background:var(--grayblue);flex:none;}
+  .gps .dot.good{background:var(--green);} .gps .dot.mid{background:var(--orange);} .gps .dot.bad{background:var(--red);}
+  .gps b{font-family:var(--mono);}
+  #map{height:250px;border-radius:14px;margin:12px 0;border:1px solid rgba(143,165,182,.3);}
+  .row{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0;}
+  button,.btn{font-family:var(--sans);font-weight:600;font-size:13px;border-radius:10px;padding:10px 13px;
+    border:1px solid rgba(242,236,221,.35);background:transparent;color:var(--cream);cursor:pointer;}
+  .primary{background:var(--orange);color:var(--navy);border-color:var(--orange);}
+  .rec{background:var(--red);border-color:var(--red);color:#fff;}
+  .small{padding:7px 10px;font-size:12px;}
+  h2{font-family:var(--serif);font-size:19px;margin:22px 0 8px;}
+  .stop{background:rgba(242,236,221,.05);border:1px solid rgba(143,165,182,.25);border-radius:14px;
+    padding:12px;margin-bottom:10px;}
+  .stop.done{border-color:rgba(111,191,138,.55);}
+  .stop-top{display:flex;align-items:center;gap:10px;}
+  .num{width:30px;height:30px;border-radius:50%;background:var(--paper);color:var(--navy);display:flex;
+    align-items:center;justify-content:center;font-size:14px;flex:none;}
+  .stop-name{font-weight:700;font-size:14.5px;flex:1;}
+  .status{font-size:11.5px;color:var(--grayblue);margin:6px 0 8px;font-family:var(--mono);line-height:1.5;}
+  .status.ok{color:var(--green);}
+  input,select,textarea{width:100%;font-family:var(--sans);font-size:13px;background:rgba(0,0,0,.25);
+    color:var(--cream);border:1px solid rgba(143,165,182,.35);border-radius:8px;padding:8px 10px;}
+  textarea{font-family:var(--mono);font-size:11px;height:220px;}
+  .stop .row{margin:8px 0 0;}
+  .stop .row button.primary{flex:1;}
+  .card{background:rgba(242,236,221,.05);border:1px solid rgba(143,165,182,.25);border-radius:14px;padding:12px;}
+  .card label{font-size:11.5px;color:var(--grayblue);display:block;margin:6px 0 4px;}
+  .overlay{position:fixed;inset:0;background:rgba(14,36,54,.96);z-index:1000;display:none;
+    flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center;}
+  .overlay.show{display:flex;}
+  .big{font-family:var(--mono);font-size:54px;font-weight:700;margin:8px 0;}
+  .bar{width:100%;max-width:320px;height:8px;background:rgba(143,165,182,.25);border-radius:4px;overflow:hidden;margin:14px 0;}
+  .bar i{display:block;height:100%;width:0;background:var(--orange);transition:width .3s;}
+  .mk{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-size:12px;border:2px solid var(--navy);box-shadow:0 1px 4px rgba(0,0,0,.4);background:var(--paper);color:var(--navy);font-weight:700;}
+  .mk.todo{opacity:.45;} .mk.ok{background:var(--green);}
+  .me{width:14px;height:14px;border-radius:50%;background:#3B82F6;border:3px solid #fff;box-shadow:0 0 0 5px rgba(59,130,246,.3);}
+</style>
+</head>
+<body>
+<div class="phone">
+  <header>
+    <div class="label">MUSEO DIFFUSO DEL MARE · STRUMENTO INTERNO</div>
+    <h1>Rilievo tappe</h1>
+    <p class="muted">Mettiti esattamente dove andrà il pannello, resta fermo e premi "Rileva". I dati restano salvati nel telefono anche senza rete. Alla fine copia il codice in fondo e incollalo al posto di <code>const stops</code> nell'index.html.</p>
+  </header>
+
+  <div class="gps"><span class="dot" id="gdot"></span><span id="gtxt">GPS in avvio…</span></div>
+
+  <div id="map"></div>
+  <div class="row">
+    <button id="trackBtn" onclick="toggleTrack()">⏺ Registra percorso</button>
+    <button onclick="sortAlong()">↕ Ordina dal porto</button>
+    <button onclick="centerMe()">📍 Centra</button>
+  </div>
+  <p class="muted" id="trackInfo"></p>
+
+  <h2>Tappe</h2>
+  <div id="list"></div>
+
+  <h2>Nuova tappa</h2>
+  <div class="card">
+    <label>Nome (per le specie usa lo stesso nome della scheda, es. "Pesce spada")</label>
+    <input id="nName" placeholder="Nome tappa">
+    <label>Tipo</label>
+    <select id="nType">
+      <option value="fish">🐟 Specie</option>
+      <option value="storia">🏛️ Storia</option>
+      <option value="anchor">⚓ Porto / punto</option>
+      <option value="evento">🌊 Evento / arrivo</option>
+    </select>
+    <label>Nota posizione</label>
+    <input id="nNote" placeholder="es. muretto lato mare, davanti al civico 12">
+    <div class="row">
+      <button class="primary" style="flex:1" onclick="addStop(true)">📍 Aggiungi e rileva qui</button>
+      <button onclick="addStop(false)">Solo aggiungi</button>
+    </div>
+  </div>
+
+  <h2>Esporta</h2>
+  <p class="muted">Codice pronto per l'index.html (distanze dal porto ricalcolate lungo l'ordine delle tappe).</p>
+  <textarea id="out" readonly></textarea>
+  <div class="row">
+    <button class="primary" onclick="copyOut()">📋 Copia codice</button>
+    <button onclick="dl('stops.js', document.getElementById('out').value, 'text/javascript')">⬇ stops.js</button>
+    <button onclick="dlGPX()">⬇ GPX</button>
+  </div>
+  <div class="row"><button class="small" onclick="resetAll()">Azzera tutto</button></div>
+</div>
+
+<div class="overlay" id="ov">
+  <div class="label" id="ovName">RILIEVO</div>
+  <div class="big" id="ovAcc">–</div>
+  <div class="muted">precisione attuale (metri) · resta fermo</div>
+  <div class="bar"><i id="ovBar"></i></div>
+  <div class="muted" id="ovInfo">0 letture</div>
+  <div class="row" style="justify-content:center;margin-top:18px">
+    <button class="primary" onclick="finishSample(true)">Salva ora</button>
+    <button onclick="finishSample(false)">Annulla</button>
+  </div>
+</div>
+
+<script>
+const KEY='mdm_rilievo_v1';
+const TARGET=12, MAX_MS=45000, GOOD_ACC=20;
+const iconFor={anchor:'⚓',fish:'🐟',storia:'🏛️',evento:'🌊'};
+
+// Tappe attuali della PWA (punto di partenza)
+const SEED=[
+  {type:'anchor',name:'Porto di Riposto',lat:37.7307,lng:15.2103,desc:'Punto di partenza del percorso'},
+  {type:'storia',name:'Percorso Storico',lat:37.729412,lng:15.210818,
+   desc:'Giusy Bonaccorso — dal Santuario della Chiesa della Lettera, 4 tappe fino al lungomare alla Chiesa del Carmine',
+   url:'https://titanium-memory-f5d.notion.site/RIPOSTO-39baf2a3c03280898d84f86fc7ea8a7b'},
+  {type:'fish',name:'Suro',lat:37.726836,lng:15.211854,ref:'Suro'},
+  {type:'fish',name:'Palamito',lat:37.724149,lng:15.212936,ref:'Palamito'},
+  {type:'fish',name:'Scorfano',lat:37.721461,lng:15.214018,ref:'Scorfano'},
+  {type:'fish',name:'Sarago',lat:37.718775,lng:15.215098,ref:'Sarago'},
+  {type:'fish',name:'Polpo',lat:37.716088,lng:15.216179,ref:'Polpo'},
+  {type:'fish',name:'Seppia',lat:37.713401,lng:15.217260,ref:'Seppia'},
+  {type:'evento',name:'Palazzo Vigo',lat:37.710558,lng:15.218403,desc:'Cortile — serata del 25 luglio'},
+];
+
+let state={stops:SEED.map(s=>({...s,survey:null,note:''})),track:[]};
+try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&s.stops)state=s;}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){alert('Memoria piena: esporta subito i dati.');}render();}
+
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function hav(a,b,c,d){const R=6371000,r=x=>x*Math.PI/180,dl=r(c-a),dn=r(d-b);
+  const h=Math.sin(dl/2)**2+Math.cos(r(a))*Math.cos(r(c))*Math.sin(dn/2)**2;return R*2*Math.atan2(Math.sqrt(h),Math.sqrt(1-h));}
+const pos=s=>s.survey?[s.survey.lat,s.survey.lng]:[s.lat,s.lng];
+
+// ---- GPS globale ----
+let last=null, tracking=false, wake=null;
+function onPos(p){
+  const c=p.coords; last={lat:c.latitude,lng:c.longitude,acc:c.accuracy,t:p.timestamp};
+  const a=Math.round(c.accuracy), d=document.getElementById('gdot');
+  d.className='dot '+(a<=8?'good':a<=20?'mid':'bad');
+  document.getElementById('gtxt').innerHTML=`GPS ±<b>${a} m</b> · ${c.latitude.toFixed(6)}, ${c.longitude.toFixed(6)}`;
+  if(sampling) addSample(last);
+  if(tracking && c.accuracy<=25){
+    const t=state.track, prev=t[t.length-1];
+    if(!prev || hav(prev[0],prev[1],last.lat,last.lng)>=5){t.push([+last.lat.toFixed(6),+last.lng.toFixed(6)]);saveQuiet();drawTrack();}
+  }
+  if(meMk) meMk.setLatLng([last.lat,last.lng]);
+  else if(map) meMk=L.marker([last.lat,last.lng],{icon:L.divIcon({className:'',html:'<div class="me"></div>',iconSize:[14,14],iconAnchor:[7,7]}),zIndexOffset:1000}).addTo(map);
+}
+function onErr(e){document.getElementById('gtxt').textContent='GPS non disponibile: '+e.message+' (controlla i permessi di posizione)';}
+if(navigator.geolocation) navigator.geolocation.watchPosition(onPos,onErr,{enableHighAccuracy:true,maximumAge:0,timeout:20000});
+else onErr({message:'browser senza geolocalizzazione'});
+function saveQuiet(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){}}
+
+async function keepAwake(on){
+  try{ if(on && !wake && 'wakeLock' in navigator) wake=await navigator.wakeLock.request('screen');
+       if(!on && wake && !sampling && !tracking){await wake.release();wake=null;} }catch(e){}
+}
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&(tracking||sampling)){wake=null;keepAwake(true);}});
+
+// ---- Rilievo con media pesata ----
+let sampling=null;
+function startSample(i){
+  if(!navigator.geolocation) return alert('Geolocalizzazione non disponibile.');
+  sampling={i,samples:[],seen:new Set(),t0:Date.now()};
+  document.getElementById('ovName').textContent='RILIEVO · '+state.stops[i].name.toUpperCase();
+  document.getElementById('ov').classList.add('show');
+  keepAwake(true);
+  sampling.poll=setInterval(()=>{
+    navigator.geolocation.getCurrentPosition(p=>onPos(p),()=>{},{enableHighAccuracy:true,maximumAge:0,timeout:5000});
+    if(sampling && Date.now()-sampling.t0>MAX_MS) finishSample(true);
+    updOv();
+  },1500);
+  if(last) addSample(last);
+}
+function addSample(s){
+  if(sampling.seen.has(s.t)) return; sampling.seen.add(s.t);
+  sampling.samples.push({...s}); updOv();
+  if(sampling.samples.filter(x=>x.acc<=GOOD_ACC).length>=TARGET) finishSample(true);
+}
+function updOv(){
+  if(!sampling) return;
+  const good=sampling.samples.filter(x=>x.acc<=GOOD_ACC).length;
+  document.getElementById('ovAcc').textContent=last?'±'+Math.round(last.acc):'–';
+  document.getElementById('ovBar').style.width=Math.min(100,good/TARGET*100)+'%';
+  const sec=Math.round((Date.now()-sampling.t0)/1000);
+  document.getElementById('ovInfo').textContent=`${good}/${TARGET} letture buone · ${sampling.samples.length} totali · ${sec}s`;
+}
+function finishSample(ok){
+  if(!sampling) return;
+  const sm=sampling; clearInterval(sm.poll); sampling=null;
+  document.getElementById('ov').classList.remove('show'); keepAwake(false);
+  if(!ok) return;
+  let use=sm.samples.filter(x=>x.acc<=GOOD_ACC);
+  if(!use.length){ // nessuna buona: tiene le migliori disponibili
+    use=[...sm.samples].sort((a,b)=>a.acc-b.acc).slice(0,3);
+    if(!use.length) return alert('Nessuna lettura GPS ricevuta. Riprova all\'aperto.');
+  }
+  let W=0,la=0,ln=0; use.forEach(x=>{const w=1/(x.acc*x.acc);W+=w;la+=x.lat*w;ln+=x.lng*w;});
+  const accs=use.map(x=>x.acc).sort((a,b)=>a-b), med=accs[Math.floor(accs.length/2)];
+  const s=state.stops[sm.i];
+  s.survey={lat:+(la/W).toFixed(6),lng:+(ln/W).toFixed(6),acc:Math.round(med),n:use.length,ts:new Date().toISOString(),manual:false};
+  save();
+  if(med>15) alert(`Salvato, ma la precisione è ±${Math.round(med)} m. Se puoi, ripeti il rilievo.`);
+  if(map) map.setView([s.survey.lat,s.survey.lng],18);
+}
+
+// ---- Gestione tappe ----
+function addStop(now){
+  const name=document.getElementById('nName').value.trim(); if(!name) return alert('Inserisci un nome.');
+  const type=document.getElementById('nType').value;
+  const s={type,name,lat:last?last.lat:0,lng:last?last.lng:0,survey:null,note:document.getElementById('nNote').value.trim(),isNew:true};
+  if(type==='fish') s.ref=name;
+  // inserisce prima dell'arrivo (ultima tappa) se esiste
+  const endIdx=state.stops.findIndex(x=>x.type==='evento');
+  const at=endIdx>=0?endIdx:state.stops.length;
+  state.stops.splice(at,0,s);
+  document.getElementById('nName').value='';document.getElementById('nNote').value='';
+  save(); if(now) startSample(at);
+}
+function move(i,d){const j=i+d;if(j<0||j>=state.stops.length)return;const a=state.stops;[a[i],a[j]]=[a[j],a[i]];save();}
+function del(i){if(confirm('Eliminare "'+state.stops[i].name+'"?')){state.stops.splice(i,1);save();}}
+function clearSurvey(i){if(confirm('Cancellare il rilievo di "'+state.stops[i].name+'"?')){state.stops[i].survey=null;save();}}
+function setNote(i,v){state.stops[i].note=v;saveQuiet();renderOut();}
+function sortAlong(){
+  const p0=pos(state.stops[0]);
+  const first=state.stops[0], rest=state.stops.slice(1);
+  rest.sort((a,b)=>hav(p0[0],p0[1],...pos(a))-hav(p0[0],p0[1],...pos(b)));
+  state.stops=[first,...rest]; save();
+}
+function toggleTrack(){
+  if(!tracking && state.track.length && !confirm('Continuare la traccia esistente? (Annulla = ricomincia da zero)')) state.track=[];
+  tracking=!tracking; keepAwake(tracking); render();
+}
+function resetAll(){
+  if(!confirm('Cancellare tutti i rilievi e la traccia e tornare alle tappe originali?'))return;
+  state={stops:SEED.map(s=>({...s,survey:null,note:''})),track:[]};save();
+}
+function centerMe(){ if(map&&last) map.setView([last.lat,last.lng],18); }
+
+// ---- Distanze ed export ----
+function withDist(){
+  let d=0; return state.stops.map((s,i)=>{
+    if(i>0){const a=pos(state.stops[i-1]),b=pos(s);d+=hav(a[0],a[1],b[0],b[1]);}
+    return {s,dist:Math.round(d)};
+  });
+}
+function renderOut(){
+  const lines=withDist().map(({s,dist})=>{
+    const [lat,lng]=pos(s);
+    let o=`  {dist:${dist}, type:'${s.type}', name:${JSON.stringify(s.name)}, lat:${lat.toFixed(6)}, lng:${lng.toFixed(6)}`;
+    if(s.ref) o+=`, ref:${JSON.stringify(s.ref)}`;
+    if(s.desc) o+=`,\n   desc:${JSON.stringify(s.desc)}`;
+    if(s.url) o+=`,\n   url:${JSON.stringify(s.url)}`;
+    o+='},';
+    const c=s.survey?`rilevato ±${s.survey.acc}m${s.survey.manual?' (spostato a mano)':''} ${s.survey.ts.slice(0,10)}`:'NON RILEVATO';
+    return o+` // ${c}${s.note?' — '+s.note.replace(/\n/g,' '):''}`;
+  });
+  let txt=`// Tappe rilevate sul posto — ${new Date().toLocaleString('it-IT')}\nconst stops = [\n${lines.join('\n')}\n];\n`;
+  if(state.track.length>1) txt+=`\n// Traccia reale del lungomare (${state.track.length} punti)\nconst track = ${JSON.stringify(state.track)};\n`;
+  document.getElementById('out').value=txt;
+}
+function copyOut(){
+  const t=document.getElementById('out');
+  (navigator.clipboard?navigator.clipboard.writeText(t.value):Promise.reject()).then(()=>alert('Codice copiato.'))
+    .catch(()=>{t.select();document.execCommand('copy');alert('Codice copiato.');});
+}
+function dl(name,content,type){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([content],{type}));a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),2000);}
+function dlGPX(){
+  const wpt=withDist().map(({s})=>{const[la,ln]=pos(s);return `<wpt lat="${la}" lon="${ln}"><name>${esc(s.name)}</name><desc>${esc(s.note||'')}</desc></wpt>`;}).join('\n');
+  const trk=state.track.length?`<trk><name>Lungomare Riposto - Torre Archirafi</name><trkseg>${state.track.map(p=>`<trkpt lat="${p[0]}" lon="${p[1]}"/>`).join('')}</trkseg></trk>`:'';
+  dl('museo-del-mare-tappe.gpx',`<?xml version="1.0" encoding="UTF-8"?>\n<gpx version="1.1" creator="Rilievo Museo del Mare" xmlns="http://www.topografix.com/GPX/1/1">\n${wpt}\n${trk}\n</gpx>`,'application/gpx+xml');
+}
+
+// ---- Mappa ----
+let map=null, layer=null, trackLine=null, meMk=null;
+if(typeof L!=='undefined'){
+  map=L.map('map',{zoomControl:false,attributionControl:false});
+  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{maxZoom:20,maxNativeZoom:19}).addTo(map);
+  layer=L.layerGroup().addTo(map);
+  map.fitBounds(state.stops.map(pos),{padding:[20,20]});
+} else document.getElementById('map').style.display='none';
+
+function drawTrack(){
+  if(!map) return;
+  if(trackLine) map.removeLayer(trackLine);
+  trackLine=state.track.length>1?L.polyline(state.track,{color:'#6FA8BF',weight:3,opacity:.9}).addTo(map):null;
+  document.getElementById('trackInfo').textContent=state.track.length?`Traccia: ${state.track.length} punti${tracking?' · registrazione in corso':''}`:'';
+}
+function drawMarkers(){
+  if(!map) return; layer.clearLayers();
+  state.stops.forEach((s,i)=>{
+    const done=!!s.survey;
+    const m=L.marker(pos(s),{draggable:done,icon:L.divIcon({className:'',html:`<div class="mk ${done?'ok':'todo'}">${i+1}</div>`,iconSize:[26,26],iconAnchor:[13,13]})})
+      .bindPopup(`<b>${esc(s.name)}</b><br>${done?'±'+s.survey.acc+' m · trascina per correggere':'non ancora rilevato'}`).addTo(layer);
+    if(done) m.on('dragend',e=>{const p=e.target.getLatLng();s.survey.lat=+p.lat.toFixed(6);s.survey.lng=+p.lng.toFixed(6);s.survey.manual=true;save();});
+  });
+}
+
+// ---- Lista ----
+function render(){
+  const tb=document.getElementById('trackBtn');
+  tb.textContent=tracking?'⏹ Ferma percorso':'⏺ Registra percorso'; tb.className=tracking?'rec':'';
+  const wd=withDist();
+  document.getElementById('list').innerHTML=wd.map(({s,dist},i)=>{
+    const st=s.survey
+      ?`<div class="status ok">✔ ±${s.survey.acc} m · ${s.survey.n} letture · ${new Date(s.survey.ts).toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'})}${s.survey.manual?' · spostato a mano':''}<br>${s.survey.lat.toFixed(6)}, ${s.survey.lng.toFixed(6)} · ${dist} m dal porto</div>`
+      :`<div class="status">${s.isNew?'nuova tappa · ':''}da rilevare · posizione attuale nella PWA ${s.lat.toFixed(5)}, ${s.lng.toFixed(5)}</div>`;
+    return `<div class="stop ${s.survey?'done':''}">
+      <div class="stop-top"><div class="num">${iconFor[s.type]||'•'}</div><div class="stop-name">${i+1}. ${esc(s.name)}</div></div>
+      ${st}
+      <input placeholder="Nota posizione (muretto, civico, scaletta…)" value="${esc(s.note)}" oninput="setNote(${i},this.value)">
+      <div class="row">
+        <button class="primary" onclick="startSample(${i})">📍 ${s.survey?'Rileva di nuovo':'Rileva'}</button>
+        <button class="small" onclick="move(${i},-1)">↑</button>
+        <button class="small" onclick="move(${i},1)">↓</button>
+        ${s.survey?`<button class="small" onclick="clearSurvey(${i})">↺</button>`:''}
+        <button class="small" onclick="del(${i})">🗑</button>
+      </div></div>`;
+  }).join('');
+  drawMarkers(); drawTrack(); renderOut();
+}
+render();
+</script>
+</body>
+</html>
