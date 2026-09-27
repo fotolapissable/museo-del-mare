@@ -432,7 +432,7 @@ function initMap(){
   map.fitBounds(bounds, {padding:[24,24]});
 
   // linea del percorso
-  L.polyline(bounds, {color:'#C8813A', weight:2.5, opacity:0.7, dashArray:'1,6'}).addTo(map);
+  L.polyline(typeof track !== 'undefined' ? track : bounds, {color:'#C8813A', weight:2.5, opacity:0.7, dashArray:'1,6'}).addTo(map);
 }
 
 function haversine(lat1,lng1,lat2,lng2){
