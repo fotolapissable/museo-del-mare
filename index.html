@@ -150,17 +150,18 @@
   .divider{height:1px;background:rgba(200,129,58,0.3);margin:22px 0;}
 
   #map{
-    width:100%;height:280px;border-radius:14px;overflow:hidden;
+    width:100%;height:460px;border-radius:14px;overflow:hidden;
     border:1px solid rgba(143,165,182,0.3);margin-bottom:12px;
   }
   .leaflet-popup-content-wrapper{background:var(--navy);color:var(--cream);border-radius:10px;}
   .leaflet-popup-tip{background:var(--navy);}
+  .leaflet-control-attribution{font-size:9px;}
   .leaflet-popup-content{margin:10px 12px;font-family:var(--sans);}
   .leaflet-popup-content b{font-family:var(--serif);display:block;font-size:14px;margin-bottom:3px;}
   .leaflet-popup-content a{color:var(--orange);font-size:12px;font-weight:600;text-decoration:none;}
   .mk-stop{
-    width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;
-    font-size:14px;box-shadow:0 1px 4px rgba(0,0,0,0.4);border:2px solid var(--navy);
+    width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-size:12px;box-shadow:0 1px 4px rgba(0,0,0,0.4);border:2px solid var(--navy);
   }
   .mk-fish{background:var(--paper);}
   .mk-storia{background:var(--blue);}
@@ -477,8 +478,9 @@ stepsEl.innerHTML = stops.map((s,i) => `
 let map;
 function initMap(){
   if (map || typeof L === 'undefined') return;
-  map = L.map('map', {zoomControl:false, attributionControl:false});
-  L.tileLayer('https://a.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png', {maxZoom:19}).addTo(map);
+  map = L.map('map', {zoomControl:true});
+  map.attributionControl.setPrefix(false);
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom:19, attribution:'© <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>'}).addTo(map);
 
   const bounds = [];
   stops.forEach(s => {
@@ -487,13 +489,13 @@ function initMap(){
       icon: L.divIcon({
         className:'',
         html:`<div class="mk-stop ${classFor[s.type]}">${s.icon || iconFor[s.type]}</div>`,
-        iconSize:[30,30], iconAnchor:[15,15]
+        iconSize:[24,24], iconAnchor:[12,12]
       })
     }).addTo(map);
     const linkHtml = s.url ? `<a href="${s.url}" target="_blank">Scopri la scheda →</a>` : '';
     marker.bindPopup(`<b>${s.name}</b>${[s.desc, distTxt(s), linkHtml].filter(Boolean).join('<br>')}`);
   });
-  map.fitBounds(bounds, {padding:[24,24]});
+  map.fitBounds(bounds, {padding:[18,18]});
 
   // linea del percorso
   L.polyline(track, {color:'#C8813A', weight:2.5, opacity:0.7, dashArray:'1,6'}).addTo(map);
