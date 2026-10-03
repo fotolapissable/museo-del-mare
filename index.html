@@ -210,7 +210,7 @@
 <div class="phone">
 
   <div class="tip-banner" id="tip-banner">
-    <div class="txt">🌊 Benvenuto! Ogni pannello lungo il percorso ha un QR: aprilo per leggere la scheda. Tocca "La mia posizione" sulla mappa per orientarti.</div>
+    <div class="txt">🌊 Benvenuto! Il percorso per ora è virtuale: tocca una tappa sulla mappa per leggere la scheda, oppure attiva "Avvisami alle tappe" mentre cammini sul lungomare.</div>
     <button onclick="closeTip()">Ho capito</button>
   </div>
 
@@ -245,7 +245,8 @@
   <section id="percorso" class="active">
     <div class="section-label">IL MUSEO DIFFUSO</div>
     <h2 class="section-title">Un museo senza muri</h2>
-    <p class="section-intro">Non ha orari né biglietti: è il lungomare stesso a diventare museo. Quindici tappe, una ogni 140 metri circa, dal lungomare di Riposto fino al molo di Torre Archirafi — un pannello, un QR, una scheda.</p>
+    <p class="section-intro">Non ha orari né biglietti: è il lungomare stesso a diventare museo. Quindici tappe, una ogni 140 metri circa, dal lungomare di Riposto fino al molo di Torre Archirafi.</p>
+    <div class="note-box" style="margin-top:-8px;">🧭 <b style="color:var(--cream);">Per ora il percorso è virtuale.</b> I pannelli sul lungomare sono ancora da realizzare: intanto ogni tappa è già qui sulla mappa, con la sua scheda. Tocca un numero per aprirla.</div>
 
     <div class="map-wrap">
       <div id="map"></div>
@@ -1700,10 +1701,10 @@ initMap();
 // --- primo avvio: piccolo aiuto una tantum ---
 function closeTip(){
   document.getElementById('tip-banner').classList.remove('show');
-  try { localStorage.setItem('mdm_tip_v1', '1'); } catch(e){}
+  try { localStorage.setItem('mdm_tip_v2', '1'); } catch(e){}
 }
 try {
-  if (!localStorage.getItem('mdm_tip_v1')) {
+  if (!localStorage.getItem('mdm_tip_v2')) {
     document.getElementById('tip-banner').classList.add('show');
   }
 } catch(e){}
