@@ -217,7 +217,7 @@
     <p class="subtitle">Un percorso naturalistico-educativo permanente lungo il litorale jonico etneo, tra il porto e il belvedere di Torre Archirafi.</p>
     <div class="hero-cta">
       <button class="btn btn-primary" onclick="showTab('percorso')">Scopri il percorso</button>
-      <button class="btn btn-ghost" onclick="showTab('evento')">Evento 25 luglio</button>
+      <button class="btn btn-ghost" onclick="showTab('evento')">Evento 4 ottobre</button>
     </div>
   </header>
 
@@ -233,7 +233,7 @@
   <section id="percorso" class="active">
     <div class="section-label">IL MUSEO DIFFUSO</div>
     <h2 class="section-title">Un museo senza muri</h2>
-    <p class="section-intro">Non ha orari né biglietti: è il lungomare stesso a diventare museo. Una tappa ogni 300 metri circa, dal porto fino a Palazzo Vigo — un pannello, un QR, una scheda.</p>
+    <p class="section-intro">Non ha orari né biglietti: è il lungomare stesso a diventare museo. Quindici tappe, una ogni 140 metri circa, dal lungomare di Riposto fino al molo di Torre Archirafi — un pannello, un QR, una scheda.</p>
 
     <div class="map-wrap">
       <div id="map"></div>
@@ -241,10 +241,10 @@
     <button class="locate-btn" id="locate-btn" onclick="locateMe()">📍 La mia posizione</button>
     <div class="nearest-box" id="nearest-box"></div>
     <div class="map-legend">
-      <span><i style="background:var(--orange)"></i>Porto (partenza)</span>
+      <span><i style="background:var(--orange)"></i>Partenza</span>
       <span><i style="background:var(--paper)"></i>Specie</span>
       <span><i style="background:var(--blue)"></i>Percorso storico</span>
-      <span><i style="background:var(--orange2)"></i>Palazzo Vigo (arrivo)</span>
+      <span><i style="background:var(--orange2)"></i>Molo di Torre Archirafi (arrivo)</span>
     </div>
 
     <div class="note-box">📍 Il marker del Percorso Storico segna il punto dove l'itinerario di Giusy Bonaccorso — che si snoda nel centro antico, dal Santuario della Chiesa della Lettera — raggiunge il lungomare, alla Chiesa del Carmine.</div>
@@ -254,9 +254,9 @@
 
   <!-- SPECIE -->
   <section id="specie">
-    <div class="section-label">LE SEI SPECIE</div>
+    <div class="section-label">LE QUINDICI SPECIE</div>
     <h2 class="section-title">Chi vive in questo mare</h2>
-    <p class="section-intro">Sei specie emblematiche del litorale jonico etneo, raccontate con la scienza e con la voce dei pescatori di Riposto.</p>
+    <p class="section-intro">Quindici specie del litorale jonico etneo, dagli scogli sotto costa al mare aperto e ai fondali profondi, raccontate con la scienza e con la voce dei pescatori di Riposto.</p>
     <div id="specie-list"></div>
   </section>
 
@@ -317,16 +317,14 @@
 
   <!-- EVENTO -->
   <section id="evento">
-    <div class="section-label">SERATA DI APERTURA</div>
-    <h2 class="section-title">Stasera il mare entra a Palazzo Vigo</h2>
+    <div class="section-label">PROSSIMO APPUNTAMENTO</div>
+    <h2 class="section-title">Una serata tra mare e stelle</h2>
 
     <div class="event-card">
-      <div class="when">SABATO 25 LUGLIO · 19:30 – 22:30</div>
-      <h3>Cortile di Palazzo Vigo</h3>
-      <p>Torre Archirafi, Riposto. Ingresso libero. Sei pesci da scoprire, gli acquari, i pannelli del progetto e la barca dei pescatori con i loro attrezzi.</p>
+      <div class="when">DOMENICA 4 OTTOBRE · DALLE 18:00</div>
+      <h3>Istituto Nautico di Riposto</h3>
+      <p>Visita al planetario e al telescopio, filmati subacquei del Gruppo sommozzatori di Riposto, i pannelli e le locandine delle specie del Museo Diffuso del Mare.</p>
     </div>
-
-    <p class="section-intro" style="margin-top:4px;">Questo prototipo nasce proprio per questo momento: mostrare al comitato come i contenuti già pronti — pannelli, schede, foto, video, voci — potrebbero vivere in un'unica app dedicata al Museo Diffuso del Mare, invece che sparsi tra pagine Notion e un'app turistica generale.</p>
   </section>
 
   <footer>
@@ -357,24 +355,90 @@ const specie = [
   {icon:'🦑', name:'Seppia', dial:'Siccia', sci:'Sepia officinalis',
    desc:'In primavera si avvicina a riva per deporre le uova tra la posidonia. Nota per l\'inchiostro nero e per l\'osso interno che il mare lascia in spiaggia dopo le mareggiate.',
    url:'https://debonair-stilton-413.notion.site/38984f34c219818db22bff27383aa108'},
+  {icon:'🗡️', name:'Pesce spada', dial:'Pisci spata', sci:'Xiphias gladius',
+   desc:'Grande predatore del mare aperto: la mascella superiore si allunga in una spada piatta e affilata, lunga fino a un terzo del corpo.',
+   url:'https://debonair-stilton-413.notion.site/3ec84f34c21981c79ddee584c1f16f63'},
+  {icon:'🐟', name:'Tonno', dial:'Tunnu', sci:'Thunnus thynnus',
+   desc:'Il gigante dei pesci azzurri: nuotatore instancabile, attraversa il Mediterraneo in branchi per riprodursi e può superare i due metri e mezzo.',
+   url:'https://debonair-stilton-413.notion.site/3ec84f34c219813e8aecd93a14a55d7a'},
+  {icon:'🐟', name:'Alalunga', dial:'Alalonga', sci:'Thunnus alalunga',
+   desc:'Il tonno dalle lunghissime pinne pettorali, da cui prende il nome. Carne chiara e delicata, pescata al largo.',
+   url:'https://debonair-stilton-413.notion.site/3ec84f34c219812cb8dfd6370d1b1391'},
+  {icon:'🐟', name:'Pesce spatola', dial:'Pisci sciabbula', sci:'Lepidopus caudatus',
+   desc:'Corpo lungo, piatto e sottile come un nastro d\'argento, senza squame. Vive in profondità e risale verso la superficie di notte.',
+   url:'https://debonair-stilton-413.notion.site/3ec84f34c21981f9a242d852fdc8b166'},
+  {icon:'🐟', name:'Occhiata', dial:'Ucchiata', sci:'Oblada melanura',
+   desc:'Si riconosce dai grandi occhi e dalla macchia nera bordata di bianco alla base della coda. Vive in branchi lungo le scogliere, vicino alla superficie.',
+   url:'https://debonair-stilton-413.notion.site/3ec84f34c219815aa6e6dbbed9e751ba'},
+  {icon:'🐟', name:'Boga', dial:'Vopa', sci:'Boops boops',
+   desc:'Piccolo pesce argenteo con sottili linee dorate sui fianchi e occhi grandi. Vive in fitti branchi sotto costa.',
+   url:'https://debonair-stilton-413.notion.site/3ec84f34c219815d9a76c4d1f4a7bd36'},
+  {icon:'🐟', name:'Ricciola', dial:'Aricciola', sci:'Seriola dumerili',
+   desc:'Il più grande carangide del Mediterraneo: corpo slanciato e muscoloso, dorso blu-violaceo, fianchi argentei con una sfumatura dorata.',
+   url:'https://debonair-stilton-413.notion.site/3ec84f34c219817f89afd18f2217135d'},
+  {icon:'🦐', name:'Gambero rosso', dial:'Ammaru russu', sci:'Aristaeomorpha foliacea',
+   desc:'Crostaceo dei fondali fangosi profondi, a centinaia di metri sotto la superficie, di un rosso intenso già da vivo.',
+   url:'https://debonair-stilton-413.notion.site/3ec84f34c21981c6a860c71c30543ee8'},
+  {icon:'🐟', name:'Merluzzo', dial:'Mirluzzu', sci:'Merluccius merluccius',
+   desc:'È il nasello: corpo allungato grigio-argenteo, bocca grande con denti aguzzi e interno nero. Non va confuso con il merluzzo atlantico.',
+   url:'https://debonair-stilton-413.notion.site/3ec84f34c21981709092f88d6027aa46'},
 ];
 
-// Tappe reali lungo il Lungomare Edoardo Pantano, dal porto di Riposto (37.7307, 15.2103)
-// a Palazzo Vigo/Torre Archirafi (37.710558, 15.218403) — distanza reale ~2.35km,
-// interpolate ogni ~300m. Ordine dei pannelli PLACEHOLDER: da confermare con Michele.
+// Tracciato reale del percorso (punti presi da Google Maps), dalla partenza sul lungomare
+// di Riposto al molo di Torre Archirafi: circa 2,3 km.
+const track = [
+  [37.72686002319092, 15.209703802174218],
+  [37.724569707794046, 15.211207337165238],
+  [37.72142978678185, 15.213868088479305],
+  [37.72115592428981, 15.214071643330156],
+  [37.717643759723614, 15.216432022852533],
+  [37.71402391191273, 15.218164530823707],
+  [37.71191134719924, 15.218507360731735],
+  [37.71012703948311, 15.21836301130106],
+  [37.709884370384316, 15.218254749220556],
+  [37.70922773214134, 15.218182574507358],
+  [37.708994792528316, 15.218105684171302],
+  [37.70862867965244, 15.219114679713769],
+];
+
+// ORDINE DELLE TAPPE dalla partenza all'arrivo: dallo scoglio al mare aperto, fino ai fondali profondi.
+// Per cambiare l'ordine basta spostare i nomi qui sotto: le posizioni sulla mappa
+// vengono ricalcolate da sole, a distanza uguale lungo il tracciato.
+const ordine = ['Polpo','Seppia','Scorfano','Sarago','Occhiata','Boga','Suro','Palamito',
+                'Ricciola','Alalunga','Tonno','Pesce spada','Pesce spatola','Merluzzo','Gambero rosso'];
+
+function haversine(lat1,lng1,lat2,lng2){
+  const R = 6371000, toRad = d => d*Math.PI/180;
+  const dLat = toRad(lat2-lat1), dLng = toRad(lng2-lng1);
+  const a = Math.sin(dLat/2)**2 + Math.cos(toRad(lat1))*Math.cos(toRad(lat2))*Math.sin(dLng/2)**2;
+  return R * 2*Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+const segLen = track.slice(1).map((p,i) => haversine(track[i][0],track[i][1],p[0],p[1]));
+const trackLen = segLen.reduce((a,b) => a+b, 0);
+// punto sul tracciato a "d" metri dalla partenza
+function pointAt(d){
+  for (let i = 0; i < segLen.length; i++){
+    if (d <= segLen[i] || i === segLen.length-1){
+      const t = Math.max(0, Math.min(1, d/segLen[i]));
+      return [track[i][0] + (track[i+1][0]-track[i][0])*t, track[i][1] + (track[i+1][1]-track[i][1])*t];
+    }
+    d -= segLen[i];
+  }
+}
+const passo = trackLen / (ordine.length + 1);
+
 const stops = [
-  {dist:0,    type:'anchor', name:'Porto di Riposto', lat:37.7307,   lng:15.2103,  desc:'Punto di partenza del percorso'},
-  {dist:150,  type:'storia', name:'Percorso Storico', lat:37.729412, lng:15.210818,
+  {dist:null, type:'storia', name:'Percorso Storico', lat:37.729412, lng:15.210818,
    desc:'Giusy Bonaccorso — dal Santuario della Chiesa della Lettera, 4 tappe fino al lungomare alla Chiesa del Carmine',
    url:'https://titanium-memory-f5d.notion.site/RIPOSTO-39baf2a3c03280898d84f86fc7ea8a7b'},
-  {dist:450,  type:'fish',   name:'Suro',      lat:37.726836, lng:15.211854, ref:'Suro'},
-  {dist:763,  type:'fish',   name:'Palamito',  lat:37.724149, lng:15.212936, ref:'Palamito'},
-  {dist:1076, type:'fish',   name:'Scorfano',  lat:37.721461, lng:15.214018, ref:'Scorfano'},
-  {dist:1389, type:'fish',   name:'Sarago',    lat:37.718775, lng:15.215098, ref:'Sarago'},
-  {dist:1702, type:'fish',   name:'Polpo',     lat:37.716088, lng:15.216179, ref:'Polpo'},
-  {dist:2015, type:'fish',   name:'Seppia',    lat:37.713401, lng:15.217260, ref:'Seppia'},
-  {dist:2346, type:'evento', name:'Palazzo Vigo', lat:37.710558, lng:15.218403, desc:'Cortile — serata del 25 luglio'},
+  {dist:0, type:'anchor', name:'Partenza', lat:track[0][0], lng:track[0][1], desc:'Inizio del percorso sul lungomare di Riposto'},
+  ...ordine.map((n,i) => {
+    const d = passo*(i+1), p = pointAt(d);
+    return {dist:Math.round(d), type:'fish', name:n, lat:+p[0].toFixed(6), lng:+p[1].toFixed(6), ref:n};
+  }),
+  {dist:Math.round(trackLen), type:'evento', name:'Molo di Torre Archirafi', lat:track[track.length-1][0], lng:track[track.length-1][1], desc:'Arrivo del percorso'},
 ];
+const distTxt = s => s.dist === null ? '' : s.dist === 0 ? 'Punto di partenza' : s.dist + ' m dalla partenza';
 
 const list = document.getElementById('specie-list');
 list.innerHTML = specie.map(s => `
@@ -405,7 +469,7 @@ stepsEl.innerHTML = stops.map((s,i) => `
   <div class="step">
     ${i < stops.length-1 ? '<div class="step-line"></div>' : ''}
     <div class="step-dot">${s.icon || iconFor[s.type]}</div>
-    <div class="step-body"><b>${s.name}</b><span>${s.dist}m dal porto${s.desc ? ' — ' + s.desc : ''}</span></div>
+    <div class="step-body"><b>${s.name}</b><span>${[distTxt(s), s.desc].filter(Boolean).join(' — ')}</span></div>
   </div>
 `).join('');
 
@@ -427,20 +491,14 @@ function initMap(){
       })
     }).addTo(map);
     const linkHtml = s.url ? `<a href="${s.url}" target="_blank">Scopri la scheda →</a>` : '';
-    marker.bindPopup(`<b>${s.name}</b>${s.desc || ''}<br>${s.dist}m dal porto<br>${linkHtml}`);
+    marker.bindPopup(`<b>${s.name}</b>${[s.desc, distTxt(s), linkHtml].filter(Boolean).join('<br>')}`);
   });
   map.fitBounds(bounds, {padding:[24,24]});
 
   // linea del percorso
-  L.polyline(typeof track !== 'undefined' ? track : bounds, {color:'#C8813A', weight:2.5, opacity:0.7, dashArray:'1,6'}).addTo(map);
+  L.polyline(track, {color:'#C8813A', weight:2.5, opacity:0.7, dashArray:'1,6'}).addTo(map);
 }
 
-function haversine(lat1,lng1,lat2,lng2){
-  const R = 6371000, toRad = d => d*Math.PI/180;
-  const dLat = toRad(lat2-lat1), dLng = toRad(lng2-lng1);
-  const a = Math.sin(dLat/2)**2 + Math.cos(toRad(lat1))*Math.cos(toRad(lat2))*Math.sin(dLng/2)**2;
-  return R * 2*Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-}
 function fmtDist(d){ return d < 1000 ? Math.round(d)+' m' : (d/1000).toFixed(1)+' km'; }
 
 let userMarker;
