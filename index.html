@@ -61,7 +61,9 @@
   .brandmark{display:flex;align-items:center;gap:8px;font-family:'DejaVu Sans Mono','Courier New',monospace;
     font-size:10px;letter-spacing:1.2px;color:var(--orange);}
   .brandmark .dot{width:7px;height:7px;border-radius:50%;background:var(--orange);}
-  .lang{font-size:11px;color:var(--grayblue);border:1px solid var(--grayblue);border-radius:20px;padding:3px 10px;}
+  .lang{display:flex;border:1px solid var(--grayblue);border-radius:20px;overflow:hidden;}
+  .lang button{background:none;border:none;color:var(--grayblue);font-family:var(--sans);font-size:12px;font-weight:600;padding:6px 12px;cursor:pointer;}
+  .lang button.active{background:var(--orange);color:var(--navy);}
 
   h1.title{font-family:var(--serif);font-weight:700;font-size:38px;line-height:1.08;margin:0 0 10px;}
   .subtitle{color:var(--blue);font-size:14.5px;line-height:1.5;margin:0 0 18px;max-width:340px;}
@@ -210,43 +212,43 @@
 <div class="phone">
 
   <div class="tip-banner" id="tip-banner">
-    <div class="txt">🌊 Benvenuto! Il percorso per ora è virtuale: tocca una tappa sulla mappa per leggere la scheda, oppure attiva "Avvisami alle tappe" mentre cammini sul lungomare.</div>
-    <button onclick="closeTip()">Ho capito</button>
+    <div class="txt" data-en="🌊 Welcome! For now the route is virtual: tap a stop on the map to read its card, or turn on &quot;Alert me at each stop&quot; while you walk along the seafront.">🌊 Benvenuto! Il percorso per ora è virtuale: tocca una tappa sulla mappa per leggere la scheda, oppure attiva "Avvisami alle tappe" mentre cammini sul lungomare.</div>
+    <button onclick="closeTip()" data-en="Got it">Ho capito</button>
   </div>
 
   <div class="install-banner" id="install-banner">
     <div class="txt" id="install-text">📲 Aggiungi questa app alla schermata Home per aprirla più velocemente.</div>
-    <button id="install-btn" onclick="doInstall()">Installa</button>
+    <button id="install-btn" onclick="doInstall()" data-en="Install">Installa</button>
     <button class="install-x" onclick="dismissInstall()">✕</button>
   </div>
 
   <header class="hero">
     <div class="hero-top">
       <div class="brandmark"><span class="dot"></span>MUSEO DIFFUSO DEL MARE</div>
-      <div class="lang">IT</div>
+      <div class="lang"><button id="lang-it" onclick="setLang('it')">IT</button><button id="lang-en" onclick="setLang('en')">EN</button></div>
     </div>
-    <h1 class="title">Il mare di<br>Riposto, raccontato.</h1>
-    <p class="subtitle">Un percorso naturalistico-educativo permanente lungo il litorale jonico etneo, tra il porto e il belvedere di Torre Archirafi.</p>
+    <h1 class="title" data-en="The sea of Riposto,<br>one stop at a time.">Il mare di<br>Riposto, raccontato.</h1>
+    <p class="subtitle" data-en="A permanent nature and heritage trail along the Ionian coast below Mount Etna, between the harbour of Riposto and Torre Archirafi.">Un percorso naturalistico-educativo permanente lungo il litorale jonico etneo, tra il porto e il belvedere di Torre Archirafi.</p>
     <div class="hero-cta">
-      <button class="btn btn-primary" onclick="showTab('percorso')">Scopri il percorso</button>
-      <button class="btn btn-ghost" onclick="showTab('evento')">Evento 4 ottobre</button>
+      <button class="btn btn-primary" onclick="showTab('percorso')" data-en="Explore the route">Scopri il percorso</button>
+      <button class="btn btn-ghost" onclick="showTab('evento')" data-en="The 4 October evening">La serata del 4 ottobre</button>
     </div>
   </header>
 
   <nav class="tabs" id="tabs">
-    <button data-tab="percorso" class="active" onclick="showTab('percorso')">Percorso</button>
-    <button data-tab="specie" onclick="showTab('specie')">Le Specie</button>
-    <button data-tab="storia" onclick="showTab('storia')">La Storia</button>
-    <button data-tab="pescatori" onclick="showTab('pescatori')">I Pescatori</button>
-    <button data-tab="evento" onclick="showTab('evento')">Evento</button>
+    <button data-tab="percorso" class="active" onclick="showTab('percorso')" data-en="Route">Percorso</button>
+    <button data-tab="specie" onclick="showTab('specie')" data-en="Species">Le Specie</button>
+    <button data-tab="storia" onclick="showTab('storia')" data-en="History">La Storia</button>
+    <button data-tab="pescatori" onclick="showTab('pescatori')" data-en="Fishermen">I Pescatori</button>
+    <button data-tab="evento" onclick="showTab('evento')" data-en="Event">Evento</button>
   </nav>
 
   <!-- PERCORSO -->
   <section id="percorso" class="active">
-    <div class="section-label">IL MUSEO DIFFUSO</div>
-    <h2 class="section-title">Un museo senza muri</h2>
-    <p class="section-intro">Non ha orari né biglietti: è il lungomare stesso a diventare museo. Quindici tappe, una ogni 140 metri circa, dal lungomare di Riposto fino al molo di Torre Archirafi.</p>
-    <div class="note-box" style="margin-top:-8px;">🧭 <b style="color:var(--cream);">Per ora il percorso è virtuale.</b> I pannelli sul lungomare sono ancora da realizzare: intanto ogni tappa è già qui sulla mappa, con la sua scheda. Tocca un numero per aprirla.</div>
+    <div class="section-label" data-en="THE OPEN-AIR MUSEUM">IL MUSEO DIFFUSO</div>
+    <h2 class="section-title" data-en="A museum without walls">Un museo senza muri</h2>
+    <p class="section-intro" data-en="No opening hours, no tickets: the seafront itself is the museum. Fifteen stops, one every 140 metres or so, from the Riposto seafront to the pier of Torre Archirafi.">Non ha orari né biglietti: è il lungomare stesso a diventare museo. Quindici tappe, una ogni 140 metri circa, dal lungomare di Riposto fino al molo di Torre Archirafi.</p>
+    <div class="note-box" style="margin-top:-8px;" data-en="🧭 <b style=&quot;color:var(--cream);&quot;>For now the route is virtual.</b> The panels along the seafront have not been installed yet: meanwhile every stop is already here on the map, with its card. Tap a number to open it.">🧭 <b style="color:var(--cream);">Per ora il percorso è virtuale.</b> I pannelli sul lungomare sono ancora da realizzare: intanto ogni tappa è già qui sulla mappa, con la sua scheda. Tocca un numero per aprirla.</div>
 
     <div class="map-wrap">
       <div id="map"></div>
@@ -257,99 +259,99 @@
     </div>
     <div class="nearest-box" id="nearest-box"></div>
     <div class="map-legend">
-      <span><i style="background:var(--orange)"></i>Partenza</span>
-      <span><i style="background:var(--paper)"></i>Specie</span>
-      <span><i style="background:var(--blue)"></i>Percorso storico</span>
-      <span><i style="background:var(--orange2)"></i>Molo di Torre Archirafi (arrivo)</span>
+      <span data-en="<i style=&quot;background:var(--orange)&quot;></i>Start"><i style="background:var(--orange)"></i>Partenza</span>
+      <span data-en="<i style=&quot;background:var(--paper)&quot;></i>Species"><i style="background:var(--paper)"></i>Specie</span>
+      <span data-en="<i style=&quot;background:var(--blue)&quot;></i>Historic route"><i style="background:var(--blue)"></i>Percorso storico</span>
+      <span data-en="<i style=&quot;background:var(--orange2)&quot;></i>Torre Archirafi pier (finish)"><i style="background:var(--orange2)"></i>Molo di Torre Archirafi (arrivo)</span>
     </div>
 
     <div class="astro" id="astro"></div>
 
-    <div class="note-box">📍 Il marker del Percorso Storico segna la partenza dell'itinerario di Giusy Bonaccorso, al Santuario della Chiesa della Lettera: da lì si snoda nel centro antico fino alla Chiesa del Carmine, sul lungomare.</div>
+    <div class="note-box" data-en="📍 The Historic Route marker shows where Giusy Bonaccorso's itinerary begins, at the Sanctuary of the Chiesa della Lettera: from there it winds through the old town to the Chiesa del Carmine, on the seafront.">📍 Il marker del Percorso Storico segna la partenza dell'itinerario di Giusy Bonaccorso, al Santuario della Chiesa della Lettera: da lì si snoda nel centro antico fino alla Chiesa del Carmine, sul lungomare.</div>
 
     <div class="steps" id="steps-list"></div>
   </section>
 
   <!-- SPECIE -->
   <section id="specie">
-    <div class="section-label">LE QUINDICI SPECIE</div>
-    <h2 class="section-title">Chi vive in questo mare</h2>
-    <p class="section-intro">Quindici specie del litorale jonico etneo, dagli scogli sotto costa al mare aperto e ai fondali profondi, raccontate con la scienza e con la voce dei pescatori di Riposto.</p>
+    <div class="section-label" data-en="THE FIFTEEN SPECIES">LE QUINDICI SPECIE</div>
+    <h2 class="section-title" data-en="Who lives in this sea">Chi vive in questo mare</h2>
+    <p class="section-intro" data-en="Fifteen species of this stretch of the Ionian coast, from the rocks close to shore to the open sea and the deep seabed, told through science and through the voice of the fishermen of Riposto. Each one also carries its name in the local Sicilian dialect.">Quindici specie del litorale jonico etneo, dagli scogli sotto costa al mare aperto e ai fondali profondi, raccontate con la scienza e con la voce dei pescatori di Riposto.</p>
     <div id="specie-list"></div>
   </section>
 
   <!-- STORIA -->
   <section id="storia">
-    <div class="section-label">IL PERCORSO STORICO</div>
-    <h2 class="section-title">La memoria del porto</h2>
-    <p class="section-intro">Al percorso naturalistico si affianca un secondo itinerario, dedicato alla storia di Riposto e del suo porto.</p>
+    <div class="section-label" data-en="THE HISTORIC ROUTE">IL PERCORSO STORICO</div>
+    <h2 class="section-title" data-en="The memory of the harbour">La memoria del porto</h2>
+    <p class="section-intro" data-en="Alongside the nature trail runs a second itinerary, devoted to the history of Riposto and its harbour.">Al percorso naturalistico si affianca un secondo itinerario, dedicato alla storia di Riposto e del suo porto.</p>
 
     <div class="card">
       <div class="card-top">
         <div class="card-icon">⛪</div>
-        <div><p class="card-name">Percorso Storico</p><p class="card-meta">A cura di Giusy Bonaccorso</p></div>
+        <div><p class="card-name" data-en="Historic Route">Percorso Storico</p><p class="card-meta" data-en="Curated by Giusy Bonaccorso">A cura di Giusy Bonaccorso</p></div>
       </div>
-      <p class="card-desc">Quattro tappe dalla Chiesa della Lettera alla Chiesa del Carmine, costeggiando il porto — dalla tesi di laurea di Giusy Bonaccorso (Genova, 2025).</p>
-      <a class="card-link" href="https://titanium-memory-f5d.notion.site/RIPOSTO-39baf2a3c03280898d84f86fc7ea8a7b" target="_blank">Scopri il percorso storico →</a>
+      <p class="card-desc" data-en="Four stops from the Chiesa della Lettera to the Chiesa del Carmine, skirting the harbour — from Giusy Bonaccorso's degree thesis (Genoa, 2025).">Quattro tappe dalla Chiesa della Lettera alla Chiesa del Carmine, costeggiando il porto — dalla tesi di laurea di Giusy Bonaccorso (Genova, 2025).</p>
+      <a class="card-link" href="https://titanium-memory-f5d.notion.site/RIPOSTO-39baf2a3c03280898d84f86fc7ea8a7b" target="_blank" data-en="Open the historic route (in Italian) →">Scopri il percorso storico →</a>
     </div>
 
     <div class="card">
       <div class="card-top">
         <div class="card-icon">🗼</div>
-        <div><p class="card-name">Sistema difensivo costiero</p><p class="card-meta">Arch. Santa Sorbello</p></div>
+        <div><p class="card-name" data-en="Coastal defence system">Sistema difensivo costiero</p><p class="card-meta">Arch. Santa Sorbello</p></div>
       </div>
-      <p class="card-desc">Le torri di guardia della Contea di Mascali/Riposto dal XII al XX secolo, a cura dell'arch. Santa Sorbello, già Soprintendenza per i Beni Culturali e Ambientali di Catania.</p>
-      <a class="card-link" href="https://debonair-stilton-413.notion.site/3a384f34c2198159a70be8a3bf150d71" target="_blank">Scopri la scheda →</a>
+      <p class="card-desc" data-en="The watchtowers of the County of Mascali/Riposto from the 12th to the 20th century, by architect Santa Sorbello, formerly of the Catania Heritage Office (Soprintendenza per i Beni Culturali e Ambientali).">Le torri di guardia della Contea di Mascali/Riposto dal XII al XX secolo, a cura dell'arch. Santa Sorbello, già Soprintendenza per i Beni Culturali e Ambientali di Catania.</p>
+      <a class="card-link" href="https://debonair-stilton-413.notion.site/3a384f34c2198159a70be8a3bf150d71" target="_blank" data-en="Read the full card (in Italian) →">Scopri la scheda →</a>
     </div>
 
     <div class="card">
       <div class="card-top">
         <div class="card-icon">⚒️</div>
-        <div><p class="card-name">Imprenditori</p><p class="card-meta">Cantieri, armatori, vino e botti</p></div>
+        <div><p class="card-name" data-en="Entrepreneurs">Imprenditori</p><p class="card-meta" data-en="Shipyards, shipowners, wine and barrels">Cantieri, armatori, vino e botti</p></div>
       </div>
-      <p class="card-desc">Tra Otto e Novecento il porto di Riposto ospitava cantieri navali e compagnie di navigazione — e imbarcava il vino etneo verso il resto del Mediterraneo.</p>
-      <a class="card-link" href="https://debonair-stilton-413.notion.site/3a384f34c21981c6bdeeed4d5581b0f7" target="_blank">Scopri la scheda →</a>
+      <p class="card-desc" data-en="Between the 19th and 20th centuries the harbour of Riposto was home to shipyards and shipping companies — and shipped Etna wine across the Mediterranean.">Tra Otto e Novecento il porto di Riposto ospitava cantieri navali e compagnie di navigazione — e imbarcava il vino etneo verso il resto del Mediterraneo.</p>
+      <a class="card-link" href="https://debonair-stilton-413.notion.site/3a384f34c21981c6bdeeed4d5581b0f7" target="_blank" data-en="Read the full card (in Italian) →">Scopri la scheda →</a>
     </div>
   </section>
 
   <!-- PESCATORI -->
   <section id="pescatori">
-    <div class="section-label">LA VOCE DEI PESCATORI</div>
-    <h2 class="section-title">Chi il mare lo vive ogni giorno</h2>
-    <p class="section-intro">Il museo cresce anche grazie ai pescatori di Riposto, che condividono le proprie foto — barche, reti, pescato, momenti di vita di bordo, anche scatti d'epoca in bianco e nero.</p>
+    <div class="section-label" data-en="THE FISHERMEN'S VOICE">LA VOCE DEI PESCATORI</div>
+    <h2 class="section-title" data-en="Those who live the sea every day">Chi il mare lo vive ogni giorno</h2>
+    <p class="section-intro" data-en="The museum also grows thanks to the fishermen of Riposto, who share their own photos — boats, nets, the catch, life on board, and old black-and-white pictures too.">Il museo cresce anche grazie ai pescatori di Riposto, che condividono le proprie foto — barche, reti, pescato, momenti di vita di bordo, anche scatti d'epoca in bianco e nero.</p>
 
     <div class="card">
       <div class="card-top">
         <div class="card-icon">📸</div>
-        <div><p class="card-name">I Pescatori Raccontano</p><p class="card-meta">Galleria collettiva, senza nomi individuali</p></div>
+        <div><p class="card-name" data-en="The Fishermen Tell">I Pescatori Raccontano</p><p class="card-meta" data-en="A collective gallery, with no individual names">Galleria collettiva, senza nomi individuali</p></div>
       </div>
-      <p class="card-desc">Una raccolta di immagini vere della pesca a Riposto, per raccontare il mestiere di ogni giorno — non un archivio di ricordi personali, ma un ritratto collettivo.</p>
-      <a class="card-link" href="https://debonair-stilton-413.notion.site/I-Pescatori-Raccontano-39784f34c2198198be10f22f1ca73dd2" target="_blank">Guarda la galleria →</a>
+      <p class="card-desc" data-en="A collection of real images of fishing in Riposto, telling the everyday trade — not an archive of personal memories, but a collective portrait.">Una raccolta di immagini vere della pesca a Riposto, per raccontare il mestiere di ogni giorno — non un archivio di ricordi personali, ma un ritratto collettivo.</p>
+      <a class="card-link" href="https://debonair-stilton-413.notion.site/I-Pescatori-Raccontano-39784f34c2198198be10f22f1ca73dd2" target="_blank" data-en="See the gallery →">Guarda la galleria →</a>
     </div>
 
     <div class="wa-box">
-      <div><b>Hai una foto da condividere?</b><span>Mandala su WhatsApp</span></div>
+      <div><b data-en="Do you have a photo to share?">Hai una foto da condividere?</b><span data-en="Send it on WhatsApp">Mandala su WhatsApp</span></div>
       <a class="btn btn-primary" style="padding:9px 14px;font-size:12.5px;" href="https://wa.me/393428302287" target="_blank">342 830 2287</a>
     </div>
   </section>
 
   <!-- EVENTO -->
   <section id="evento">
-    <div class="section-label">PROSSIMO APPUNTAMENTO</div>
-    <h2 class="section-title">Una serata tra mare e stelle</h2>
+    <div class="section-label" data-en="EVENTS">APPUNTAMENTI</div>
+    <h2 class="section-title" data-en="An evening between sea and stars">Una serata tra mare e stelle</h2>
 
     <div class="event-card">
-      <div class="when">DOMENICA 4 OTTOBRE · DALLE 18:00</div>
-      <h3>Istituto Nautico di Riposto</h3>
-      <p>Visita al planetario e al telescopio, filmati subacquei del Gruppo sommozzatori di Riposto, i pannelli e le locandine delle specie del Museo Diffuso del Mare.</p>
+      <div class="when" data-en="SUNDAY 4 OCTOBER 2026">DOMENICA 4 OTTOBRE 2026</div>
+      <h3 data-en="Riposto Nautical Institute">Istituto Nautico di Riposto</h3>
+      <p data-en="An evening with the planetarium, the telescope and underwater films by the Riposto divers' group, where we presented the panels and species posters of the Museo Diffuso del Mare. Thank you to everyone who came by.">Una serata con il planetario, il telescopio e i filmati subacquei del Gruppo sommozzatori di Riposto, in cui abbiamo presentato i pannelli e le locandine delle specie del Museo Diffuso del Mare. Grazie a chi è passato a trovarci.</p>
     </div>
   </section>
 
   <footer>
-    <p>MUSEO DIFFUSO DEL MARE · LITORALE JONICO ETNEO DI RIPOSTO</p>
-    <p class="credit-line">Progetto promosso dall’Associazione Riposto è Mare · con il patrocinio del Comune di Riposto</p>
-    <p>Con la partecipazione della Pro Loco di Riposto</p>
-    <p>App e fotografie: <a href="https://www.fotolapissable.it" target="_blank" rel="noopener">fotolapissable</a></p>
+    <p data-en="MUSEO DIFFUSO DEL MARE · THE IONIAN COAST OF RIPOSTO, SICILY">MUSEO DIFFUSO DEL MARE · LITORALE JONICO ETNEO DI RIPOSTO</p>
+    <p class="credit-line" data-en="A project promoted by Riposto è Mare (association being established) · under the patronage of the Municipality of Riposto">Progetto promosso da Riposto è Mare (associazione in via di costituzione) · con il patrocinio del Comune di Riposto</p>
+    <p data-en="With the participation of the Pro Loco di Riposto">Con la partecipazione della Pro Loco di Riposto</p>
+    <p data-en="App and photographs: <a href=&quot;https://www.fotolapissable.it&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;>fotolapissable</a>">App e fotografie: <a href="https://www.fotolapissable.it" target="_blank" rel="noopener">fotolapissable</a></p>
   </footer>
 
 </div>
@@ -1377,6 +1379,67 @@
 
 </script>
 <script>
+
+// ================= LINGUE =================
+let LANG = 'it';
+const TXT = {
+  it: {
+    card:'Scopri la scheda →', openCard:'Apri la scheda →', startPoint:'Punto di partenza', fromStart:'m dalla partenza',
+    locate:'📍 La mia posizione', locating:'📍 Cerco la posizione…', alerts:'🔔 Avvisami alle tappe', alertsOn:'🔔 Avvisi attivi',
+    nearest:'Tappa più vicina:', about:'a circa', atStop:'🔔 Sei alla tappa',
+    searching:'Cerco la tua posizione… Tieni aperta questa pagina mentre cammini.',
+    noGeo:'Geolocalizzazione non disponibile su questo browser.',
+    geoErr:m => 'Non riesco ad accedere alla tua posizione (' + m + '). Controlla i permessi di localizzazione del browser.',
+    showErr:'Errore nel mostrare la posizione: ',
+    sun:'SOLE OGGI', moon:'LUNA OGGI', sunrise:'Alba', sunset:'Tramonto', rises:'Sorge', sets:'Tramonta', lit:'illuminata',
+    phases:['Luna nuova','Luna crescente','Primo quarto','Gibbosa crescente','Luna piena','Gibbosa calante','Ultimo quarto','Luna calante'],
+    install:'📲 Aggiungi questa app alla schermata Home per aprirla più velocemente.',
+    installIOS:'📲 Su iPhone: tocca Condividi e poi "Aggiungi a Home" per installare l\'app.'
+  },
+  en: {
+    card:'Read the full card (in Italian) →', openCard:'Open the card (in Italian) →', startPoint:'Starting point', fromStart:'m from the start',
+    locate:'📍 My position', locating:'📍 Finding your position…', alerts:'🔔 Alert me at each stop', alertsOn:'🔔 Alerts on',
+    nearest:'Nearest stop:', about:'about', atStop:'🔔 You are at stop',
+    searching:'Finding your position… Keep this page open while you walk.',
+    noGeo:'Geolocation is not available in this browser.',
+    geoErr:m => 'Unable to access your position (' + m + '). Check the browser\'s location permissions.',
+    showErr:'Error while showing your position: ',
+    sun:'SUN TODAY', moon:'MOON TODAY', sunrise:'Sunrise', sunset:'Sunset', rises:'Rises', sets:'Sets', lit:'illuminated',
+    phases:['New moon','Waxing crescent','First quarter','Waxing gibbous','Full moon','Waning gibbous','Last quarter','Waning crescent'],
+    install:'📲 Add this app to your Home screen to open it faster.',
+    installIOS:'📲 On iPhone: tap Share, then "Add to Home Screen" to install the app.'
+  }
+};
+const t = k => TXT[LANG][k];
+// nome e descrizione di una tappa nella lingua corrente
+const nm = s => (LANG === 'en' && s.nameEn) ? s.nameEn : s.name;
+const ds = s => (LANG === 'en' && s.descEn) ? s.descEn : s.desc;
+
+// nomi e descrizioni in inglese delle specie (il nome in dialetto e quello scientifico non cambiano)
+const SPECIE_EN = {
+  'Suro':['Atlantic horse mackerel','An oily fish that crosses the Ionian Sea in large silvery shoals. Caught at night with the lampara (lamp fishing), gathering the shoals with "u scrùsciu" — the stamping of feet on the hull.'],
+  'Palamito':['Atlantic bonito','A fast predator that arrives in late summer following the shoals of small oily fish. Caught by trolling and with night longlines; its red flesh used to be mistaken for tuna at the market.'],
+  'Scorfano':['Red scorpionfish','Motionless and camouflaged among the lava rocks, almost invisible. Its spines are venomous but harmless if handled with care — its head is the secret of fish soup.'],
+  'Sarago':['White seabream','"Maliziato" (wily): one of the hardest fish to fool with a line or a longline. It lives among the rocks and the Posidonia seagrass meadows of this coast.'],
+  'Polpo':['Common octopus','"Ammarrato" (moored) to its den like a boat to its rope. Intelligent and a master of camouflage, traditionally caught with lamp, trident and pots.'],
+  'Seppia':['Common cuttlefish','In spring it comes close to shore to lay its eggs among the Posidonia. Known for its black ink and for the cuttlebone the sea leaves on the beach after storms.'],
+  'Pesce spada':['Swordfish','A great predator of the open sea: its upper jaw extends into a flat, sharp sword, up to a third of its body length.'],
+  'Tonno':['Atlantic bluefin tuna','The giant among the oily fish: a tireless swimmer that crosses the Mediterranean in schools to spawn and can exceed two and a half metres.'],
+  'Alalunga':['Albacore','The tuna with very long pectoral fins, from which it takes its name ("long wing"). Pale, delicate flesh, caught offshore.'],
+  'Pesce spatola':['Silver scabbardfish','A long, flat body as thin as a silver ribbon, with no scales. It lives in deep water and rises towards the surface at night.'],
+  'Occhiata':['Saddled seabream','Recognised by its large eyes and the black spot edged with white at the base of the tail. It lives in shoals along rocky shores, near the surface.'],
+  'Boga':['Bogue','A small silvery fish with thin golden lines along its sides and large eyes. It lives in dense shoals close to shore.'],
+  'Ricciola':['Greater amberjack','The largest jack of the Mediterranean: a slender, muscular body, blue-violet back and silvery sides with a golden sheen.'],
+  'Gambero rosso':['Giant red shrimp','A crustacean of the deep muddy seabed, hundreds of metres below the surface, bright red even when alive.'],
+  'Merluzzo':['European hake','Locally called "merluzzo", it is in fact the hake: a long grey-silver body, a large mouth with sharp teeth and a black interior. Not to be confused with Atlantic cod.']
+};
+const STOP_EN = {
+  'Percorso Storico':['Historic Route','Giusy Bonaccorso — starts at the Sanctuary of the Chiesa della Lettera: 4 stops to the Chiesa del Carmine, on the seafront'],
+  'Partenza':['Start','Beginning of the route on the Riposto seafront'],
+  'Molo di Torre Archirafi':['Torre Archirafi pier','End of the route']
+};
+// ==========================================
+
 const specie = [
   {icon:'🐟', name:'Suro', dial:'Sauro', sci:'Trachurus trachurus',
    desc:'Pesce azzurro che attraversa il Ionio in grandi banchi argentati. Pescato di notte con la lampara, radunando i banchi con "u scrùsciu" — il battere dei piedi sullo scafo.',
@@ -1479,25 +1542,33 @@ const stops = [
   }),
   {dist:Math.round(trackLen), type:'evento', name:'Molo di Torre Archirafi', lat:track[track.length-1][0], lng:track[track.length-1][1], desc:'Arrivo del percorso'},
 ];
-const distTxt = s => s.dist === null ? '' : s.dist === 0 ? 'Punto di partenza' : s.dist + ' m dalla partenza';
+const distTxt = s => s.dist === null ? '' : s.dist === 0 ? t('startPoint') : s.dist + ' ' + t('fromStart');
+specie.forEach(sp => { const e = SPECIE_EN[sp.name]; if (e) sp.en = {name:e[0], desc:e[1]}; });
+stops.forEach(s => { const e = STOP_EN[s.name]; if (e) { s.nameEn = e[0]; s.descEn = e[1]; } });
 
 const list = document.getElementById('specie-list');
-list.innerHTML = specie.map(s => `
+function renderSpecie(){
+  list.innerHTML = specie.map(s => {
+    const en = LANG === 'en' && s.en;
+    const titolo = en ? s.en.name : s.name;
+    const sotto = en ? s.name + ' · ' + s.dial : s.dial;
+    return `
   <div class="card">
     <div class="card-top">
       <div class="card-icon">${s.icon}</div>
-      <div><p class="card-name">${s.name} <span style="font-weight:400;color:var(--grayblue);font-size:13px;">— ${s.dial}</span></p><p class="card-meta"><i>${s.sci}</i></p></div>
+      <div><p class="card-name">${titolo} <span style="font-weight:400;color:var(--grayblue);font-size:13px;">— ${sotto}</span></p><p class="card-meta"><i>${s.sci}</i></p></div>
     </div>
-    <p class="card-desc">${s.desc}</p>
-    <a class="card-link" href="${s.url}" target="_blank">Scopri la scheda →</a>
-  </div>
-`).join('');
+    <p class="card-desc">${en ? s.en.desc : s.desc}</p>
+    <a class="card-link" href="${s.url}" target="_blank">${t('card')}</a>
+  </div>`;
+  }).join('');
+}
 
 // link "fish" stops to their scheda url via the specie array
 stops.forEach(s => {
   if (s.type === 'fish') {
     const sp = specie.find(x => x.name === s.ref);
-    if (sp) { s.url = sp.url; s.desc = sp.dial + ' — ' + sp.sci; s.icon = sp.icon; }
+    if (sp) { s.url = sp.url; s.desc = sp.dial + ' — ' + sp.sci; s.icon = sp.icon; if (sp.en) s.nameEn = sp.en.name; }
   }
 });
 
@@ -1506,13 +1577,19 @@ const classFor = {anchor:'mk-anchor', fish:'mk-fish', storia:'mk-storia', evento
 
 // steps list (compact, used as fallback / accessible list under the map)
 const stepsEl = document.getElementById('steps-list');
-stepsEl.innerHTML = stops.map((s,i) => `
+function renderSteps(){
+  stepsEl.innerHTML = stops.map((s,i) => `
   <div class="step">
     ${i < stops.length-1 ? '<div class="step-line"></div>' : ''}
     <div class="step-dot"${s.num ? ' style="font-weight:700;font-size:14px;"' : ''}>${s.num || iconFor[s.type]}</div>
-    <div class="step-body"><b>${s.icon && s.num ? s.icon + ' ' : ''}${s.name}</b><span>${[distTxt(s), s.desc].filter(Boolean).join(' — ')}</span></div>
+    <div class="step-body"><b>${s.icon && s.num ? s.icon + ' ' : ''}${nm(s)}</b><span>${[distTxt(s), ds(s)].filter(Boolean).join(' — ')}</span></div>
   </div>
 `).join('');
+}
+function popupHtml(s){
+  const linkHtml = s.url ? `<a href="${s.url}" target="_blank">${t('card')}</a>` : '';
+  return `<b>${s.num ? s.num + '. ' : ''}${nm(s)}</b>${[ds(s), distTxt(s), linkHtml].filter(Boolean).join('<br>')}`;
+}
 
 // map
 let map;
@@ -1533,8 +1610,8 @@ function initMap(){
       }),
       zIndexOffset: s.type === 'fish' ? 500 : 0
     }).addTo(map);
-    const linkHtml = s.url ? `<a href="${s.url}" target="_blank">Scopri la scheda →</a>` : '';
-    marker.bindPopup(`<b>${s.num ? s.num + '. ' : ''}${s.name}</b>${[s.desc, distTxt(s), linkHtml].filter(Boolean).join('<br>')}`);
+    s.marker = marker;
+    marker.bindPopup(popupHtml(s));
   });
   map.fitBounds(bounds, {padding:[34,34]});
 
@@ -1547,14 +1624,14 @@ function fmtDist(d){ return d < 1000 ? Math.round(d)+' m' : (d/1000).toFixed(1)+
 let userMarker;
 function locateMe(){
   if (!navigator.geolocation){
-    alert('Geolocalizzazione non disponibile su questo browser.');
+    alert(t('noGeo'));
     return;
   }
   const btn = document.getElementById('locate-btn');
-  btn.classList.add('loading'); btn.textContent = '📍 Cerco la posizione…';
+  btn.classList.add('loading'); btn.textContent = t('locating');
   navigator.geolocation.getCurrentPosition(pos => {
     try {
-      btn.classList.remove('loading'); btn.textContent = '📍 La mia posizione';
+      btn.classList.remove('loading'); btn.textContent = t('locate');
       const {latitude:lat, longitude:lng} = pos.coords;
       if (!map) throw new Error('mappa non inizializzata');
       if (userMarker) map.removeLayer(userMarker);
@@ -1569,14 +1646,14 @@ function locateMe(){
       const box = document.getElementById('nearest-box');
       if (nearest){
         box.classList.add('show');
-        box.innerHTML = `Tappa più vicina: <b>${nearest.name}</b> — a circa ${fmtDist(nearestD)}`;
+        box.innerHTML = `${t('nearest')} <b>${nm(nearest)}</b> — ${t('about')} ${fmtDist(nearestD)}`;
       }
     } catch(e) {
-      alert('Errore nel mostrare la posizione: ' + e.message);
+      alert(t('showErr') + e.message);
     }
   }, err => {
-    btn.classList.remove('loading'); btn.textContent = '📍 La mia posizione';
-    alert('Non riesco ad accedere alla tua posizione (' + err.message + '). Controlla i permessi di localizzazione del browser.');
+    btn.classList.remove('loading'); btn.textContent = t('locate');
+    alert(t('geoErr')(err.message));
   }, {enableHighAccuracy:true, timeout:10000});
 }
 
@@ -1620,13 +1697,13 @@ function suPosizione(pos){
   });
   const box = document.getElementById('nearest-box');
   box.classList.add('show');
-  const nome = nearest ? `<b>${nearest.num ? nearest.num + '. ' : ''}${nearest.name}</b>` : '';
+  const nome = nearest ? `<b>${nearest.num ? nearest.num + '. ' : ''}${nm(nearest)}</b>` : '';
   if (nearest && nearestD <= RAGGIO_TAPPA){
-    const link = nearest.url ? ` · <a href="${nearest.url}" target="_blank">Apri la scheda →</a>` : '';
-    box.innerHTML = `🔔 Sei alla tappa ${nome}${nearest.type === 'fish' ? ' — ' + nearest.desc : ''}${link}`;
+    const link = nearest.url ? ` · <a href="${nearest.url}" target="_blank">${t('openCard')}</a>` : '';
+    box.innerHTML = `${t('atStop')} ${nome}${nearest.type === 'fish' ? ' — ' + (LANG === 'en' ? nearest.name + ' · ' : '') + nearest.desc : ''}${link}`;
     if (!tappeAvvisate.has(nearest.name)){ tappeAvvisate.add(nearest.name); beep(); }
   } else if (nearest){
-    box.innerHTML = `Tappa più vicina: ${nome} — a circa ${fmtDist(nearestD)}`;
+    box.innerHTML = `${t('nearest')} ${nome} — ${t('about')} ${fmtDist(nearestD)}`;
   }
 }
 
@@ -1635,10 +1712,10 @@ async function toggleAvvisi(){
   if (watchId !== null){
     navigator.geolocation.clearWatch(watchId); watchId = null;
     try { if (wakeLock) { await wakeLock.release(); wakeLock = null; } } catch(e){}
-    btn.classList.remove('on'); btn.textContent = '🔔 Avvisami alle tappe';
+    btn.classList.remove('on'); btn.textContent = t('alerts');
     return;
   }
-  if (!navigator.geolocation){ alert('Geolocalizzazione non disponibile su questo browser.'); return; }
+  if (!navigator.geolocation){ alert(t('noGeo')); return; }
   try {
     audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
     if (audioCtx.state === 'suspended') await audioCtx.resume();
@@ -1646,11 +1723,11 @@ async function toggleAvvisi(){
   beep();   // suono di prova: conferma che l'audio è attivo
   try { if ('wakeLock' in navigator) wakeLock = await navigator.wakeLock.request('screen'); } catch(e){}
   primaPos = true; tappeAvvisate.clear();
-  btn.classList.add('on'); btn.textContent = '🔔 Avvisi attivi';
+  btn.classList.add('on'); btn.textContent = t('alertsOn');
   const box = document.getElementById('nearest-box');
-  box.classList.add('show'); box.innerHTML = 'Cerco la tua posizione… Tieni aperta questa pagina mentre cammini.';
+  box.classList.add('show'); box.innerHTML = t('searching');
   watchId = navigator.geolocation.watchPosition(suPosizione, err => {
-    box.innerHTML = 'Non riesco ad accedere alla tua posizione (' + err.message + '). Controlla i permessi di localizzazione.';
+    box.innerHTML = t('geoErr')(err.message);
   }, {enableHighAccuracy:true, maximumAge:5000, timeout:20000});
 }
 
@@ -1667,23 +1744,21 @@ function aggiornaAstro(ora){
   const luna = SunCalc.getMoonTimes(ora, LAT, LNG, offMin);
   const ill = SunCalc.getMoonIllumination(ora);
   const f = ill.phase;
-  const fase = f < 0.03 || f > 0.97 ? ['🌑','Luna nuova'] : f < 0.22 ? ['🌒','Luna crescente'] : f < 0.28 ? ['🌓','Primo quarto'] :
-               f < 0.47 ? ['🌔','Gibbosa crescente'] : f < 0.53 ? ['🌕','Luna piena'] : f < 0.72 ? ['🌖','Gibbosa calante'] :
-               f < 0.78 ? ['🌗','Ultimo quarto'] : ['🌘','Luna calante'];
+  const fi = f < 0.03 || f > 0.97 ? 0 : f < 0.22 ? 1 : f < 0.28 ? 2 : f < 0.47 ? 3 : f < 0.53 ? 4 : f < 0.72 ? 5 : f < 0.78 ? 6 : 7;
+  const fase = [['🌑','🌒','🌓','🌔','🌕','🌖','🌗','🌘'][fi], t('phases')[fi]];
   el.innerHTML = `
     <div class="astro-card">
-      <div class="lab">☀️ SOLE OGGI</div>
-      <div class="row"><span>Alba</span><b>${hm(sole.sunrise)}</b></div>
-      <div class="row"><span>Tramonto</span><b>${hm(sole.sunset)}</b></div>
+      <div class="lab">☀️ ${t('sun')}</div>
+      <div class="row"><span>${t('sunrise')}</span><b>${hm(sole.sunrise)}</b></div>
+      <div class="row"><span>${t('sunset')}</span><b>${hm(sole.sunset)}</b></div>
     </div>
     <div class="astro-card">
-      <div class="lab">${fase[0]} LUNA OGGI</div>
-      <div class="row"><span>Sorge</span><b>${hm(luna.rise)}</b></div>
-      <div class="row"><span>Tramonta</span><b>${hm(luna.set)}</b></div>
-      <div class="fase">${fase[1]} · ${Math.round(ill.fraction*100)}% illuminata</div>
+      <div class="lab">${fase[0]} ${t('moon')}</div>
+      <div class="row"><span>${t('rises')}</span><b>${hm(luna.rise)}</b></div>
+      <div class="row"><span>${t('sets')}</span><b>${hm(luna.set)}</b></div>
+      <div class="fase">${fase[1]} · ${Math.round(ill.fraction*100)}% ${t('lit')}</div>
     </div>`;
 }
-try { aggiornaAstro(); } catch(e){}
 
 function showTab(name){
   document.querySelectorAll('section').forEach(s => s.classList.toggle('active', s.id === name));
@@ -1733,7 +1808,7 @@ try { installDismissed = !!localStorage.getItem('mdm_install_dismissed'); } catc
 
 if (!isStandalone && !installDismissed) {
   if (isIOS) {
-    document.getElementById('install-text').textContent = '📲 Su iPhone: tocca Condividi e poi "Aggiungi a Home" per installare l\'app.';
+    document.getElementById('install-text').textContent = t('installIOS');
     document.getElementById('install-btn').style.display = 'none';
     document.getElementById('install-banner').classList.add('show');
   } else {
@@ -1744,6 +1819,31 @@ if (!isStandalone && !installDismissed) {
     });
   }
 }
+
+// --- cambio lingua ---
+function setLang(l){
+  LANG = (l === 'en') ? 'en' : 'it';
+  try { localStorage.setItem('mdm_lang', LANG); } catch(e){}
+  document.documentElement.lang = LANG;
+  document.querySelectorAll('[data-en]').forEach(el => {
+    if (el.dataset.it === undefined) el.dataset.it = el.innerHTML;
+    el.innerHTML = LANG === 'en' ? el.dataset.en : el.dataset.it;
+  });
+  document.getElementById('lang-it').classList.toggle('active', LANG === 'it');
+  document.getElementById('lang-en').classList.toggle('active', LANG === 'en');
+  const lb = document.getElementById('locate-btn'); if (!lb.classList.contains('loading')) lb.textContent = t('locate');
+  document.getElementById('avvisi-btn').textContent = watchId !== null ? t('alertsOn') : t('alerts');
+  document.getElementById('install-text').textContent = isIOS ? t('installIOS') : t('install');
+  document.getElementById('nearest-box').classList.remove('show');
+  renderSpecie(); renderSteps();
+  stops.forEach(s => { if (s.marker) s.marker.setPopupContent(popupHtml(s)); });
+  try { aggiornaAstro(); } catch(e){}
+}
+// lingua iniziale: quella scelta in precedenza, altrimenti italiano solo se il telefono è in italiano
+let linguaIniziale = null;
+try { linguaIniziale = localStorage.getItem('mdm_lang'); } catch(e){}
+if (!linguaIniziale) linguaIniziale = /^it\b/i.test(navigator.language || '') ? 'it' : 'en';
+setLang(linguaIniziale);
 </script>
 
 </body>
