@@ -1571,7 +1571,8 @@ const portoStops = [
        desc:'Monaci italo-greci presidiarono il porto dall’alto con una chiesetta e una torre campanaria dedicata alla Madonna Odigitria, «colei che mostra la via». Sorgeva accanto al cursus publicus, l’antica via militare tra Zancle e Siracusa.'},
    en:{name:'Sanctuary of Santa Maria La Strada', period:'6th–9th century · Byzantine age',
        desc:'Italo-Greek monks guarded the harbour from above with a small church and bell tower dedicated to the Madonna Odigitria, «she who shows the way». It stood beside the cursus publicus, the ancient military road between Zancle and Syracuse.'}},
-  {it:{name:'Le pagliare', period:'XII–XVIII sec. · abitazioni stagionali',
+  {lat:37.737080, lng:15.197570, extra:[[37.744169, 15.187571]],
+   it:{name:'Le pagliare', period:'XII–XVIII sec. · abitazioni stagionali',
        desc:'Case circolari in pietra a secco con tetto di giunco a tholos, abitate da aprile a ottobre dai lavoranti della darsena, in prevalenza messinesi. Da qui i toponimi «pagliara di Riposto» e «pagliara di Giarre».'},
    en:{name:'The pagliare', period:'12th–18th century · seasonal dwellings',
        desc:'Round dry-stone houses with a thatched tholos roof, lived in from April to October by the dockyard workers, mostly from Messina. They gave their names to the localities «pagliara di Riposto» and «pagliara di Giarre».'}},
@@ -1580,11 +1581,13 @@ const portoStops = [
        desc:'Molti pozzi e una fonte d’acqua servivano il grande insediamento cantieristico portuale di Mascali.'},
    en:{name:'Saracen well, known as Roger’s well', period:'Arab and Norman age',
        desc:'Many wells and a spring supplied the great harbour shipyard of Mascali.'}},
-  {it:{name:'Torri di Malogrado', period:'età araba · oggi scomparse',
+  {lat:37.738857, lng:15.194556,
+   it:{name:'Torri di Malogrado', period:'età araba · oggi scomparse',
        desc:'Due torri gemelle costruite dagli Arabi per sorvegliare il porto e il traffico del legname dell’Etna. Oggi non restano più: la loro esistenza è testimoniata da una carta topografica d’epoca borbonica, sulla sponda settentrionale del torrente Macchia.'},
    en:{name:'Malogrado towers', period:'Arab age · no longer standing',
        desc:'Twin towers built by the Arabs to watch over the harbour and the traffic of Etna timber. None remain today: their existence is attested by a Bourbon-era topographic map, on the northern bank of the Macchia stream.'}},
-  {it:{name:'Il fiume e la darsena', period:'III–XIX sec. · torrente Macchia',
+  {lat:37.741083, lng:15.204125,
+   it:{name:'Il fiume e la darsena', period:'III–XIX sec. · torrente Macchia',
        desc:'Il Wadi, il fiume, era porto fluviale: carico del legname dell’Etna e cantiere navale, da cui il nome Dar-Sinah, corrotto in «Tarzanà». Nel Settecento un clima più secco lo trasformò in torrente.'},
    en:{name:'The river and the dockyard', period:'3rd–19th century · Macchia stream',
        desc:'The Wadi, the river, was a river port: loading Etna timber and a shipyard, whose name Dar-Sinah became «Tarzanà». In the 18th century a drier climate turned it into a stream.'}},
@@ -1618,10 +1621,13 @@ function initMapPorto(){
   const pins = [];
   portoStops.forEach((s,i) => {
     if (s.lat === undefined) return;
-    const m = L.marker([s.lat, s.lng], {icon: L.divIcon({className:'', html:`<div class="mk-stop mk-storia">${i+1}</div>`, iconSize:[24,24], iconAnchor:[12,12]})}).addTo(mapPorto);
-    m.bindPopup(portoPopup(s,i));
-    s.marker = m;
-    pins.push([s.lat, s.lng]);
+    const pts = [[s.lat, s.lng]].concat(s.extra || []);
+    pts.forEach((pt, k) => {
+      const m = L.marker(pt, {icon: L.divIcon({className:'', html:`<div class="mk-stop mk-storia">${i+1}</div>`, iconSize:[24,24], iconAnchor:[12,12]})}).addTo(mapPorto);
+      m.bindPopup(portoPopup(s,i));
+      if (k === 0) s.marker = m;
+      pins.push(pt);
+    });
   });
   if (pins.length) mapPorto.fitBounds(pins, {padding:[34,34], maxZoom:15});
 }
