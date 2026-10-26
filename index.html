@@ -272,7 +272,7 @@
       <a class="btn btn-primary" style="padding:9px 14px;font-size:12.5px;white-space:nowrap;" href="https://forms.gle/eZYt3U1odujGpnPP7" target="_blank" rel="noopener" data-en="Have your say">Di’ la tua</a>
     </div>
 
-    <div class="note-box" data-en="📍 The Historic Route marker shows where Giusy Bonaccorso's itinerary begins, at the Sanctuary of the Chiesa della Lettera: from there it winds through the old town to the Chiesa del Carmine, on the seafront.">📍 Il marker del Percorso Storico segna la partenza dell'itinerario di Giusy Bonaccorso, al Santuario della Chiesa della Lettera: da lì si snoda nel centro antico fino alla Chiesa del Carmine, sul lungomare.</div>
+    <div class="note-box" data-en="📍 The Historic Route marker shows where Giusy Bonaccorsi's itinerary begins, at the Sanctuary of the Chiesa della Lettera: from there it winds through the old town to the Chiesa del Carmine, on the seafront.">📍 Il marker del Percorso Storico segna la partenza dell'itinerario di Giusy Bonaccorsi, al Santuario della Chiesa della Lettera: da lì si snoda nel centro antico fino alla Chiesa del Carmine, sul lungomare.</div>
 
     <div class="steps" id="steps-list"></div>
   </section>
@@ -298,14 +298,14 @@
       <div id="map-porto"></div>
     </div>
     <div class="steps" id="steps-porto"></div>
-    <div class="note-box" data-en="📍 The position of some stops on the map is still being verified. Texts from the material of architect Santa Sorbello.">📍 La posizione di alcune tappe sulla mappa è in fase di verifica. Testi dal materiale dell’arch. Santa Sorbello.</div>
+    <div class="note-box" data-en="📍 The Malogrado towers no longer exist: the map shows their presumed location. The two pagliare markers are the two places once known by that name. Texts from the material of architect Santa Sorbello.">📍 Le torri di Malogrado non esistono più: sulla mappa è indicata la posizione presunta. I due punti delle pagliare sono le due località che portavano quel nome. Testi dal materiale dell’arch. Santa Sorbello.</div>
 
     <div class="card">
       <div class="card-top">
         <div class="card-icon">⛪</div>
-        <div><p class="card-name" data-en="Historic Route">Percorso Storico</p><p class="card-meta" data-en="Curated by Giusy Bonaccorso">A cura di Giusy Bonaccorso</p></div>
+        <div><p class="card-name" data-en="Historic Route">Percorso Storico</p><p class="card-meta" data-en="Curated by Giusy Bonaccorsi">A cura di Giusy Bonaccorsi</p></div>
       </div>
-      <p class="card-desc" data-en="Four stops from the Chiesa della Lettera to the Chiesa del Carmine, skirting the harbour — from Giusy Bonaccorso's degree thesis (Genoa, 2025).">Quattro tappe dalla Chiesa della Lettera alla Chiesa del Carmine, costeggiando il porto — dalla tesi di laurea di Giusy Bonaccorso (Genova, 2025).</p>
+      <p class="card-desc" data-en="Four stops from the Chiesa della Lettera to the Chiesa del Carmine, skirting the harbour — from Giusy Bonaccorsi's degree thesis (Genoa, 2025).">Quattro tappe dalla Chiesa della Lettera alla Chiesa del Carmine, costeggiando il porto — dalla tesi di laurea di Giusy Bonaccorsi (Genova, 2025).</p>
       <a class="card-link" href="https://titanium-memory-f5d.notion.site/RIPOSTO-39baf2a3c03280898d84f86fc7ea8a7b" target="_blank" data-en="Open the historic route (in Italian) →">Scopri il percorso storico →</a>
     </div>
 
@@ -1448,7 +1448,7 @@ const SPECIE_EN = {
   'Merluzzo':['European hake','Locally called "merluzzo", it is in fact the hake: a long grey-silver body, a large mouth with sharp teeth and a black interior. Not to be confused with Atlantic cod.']
 };
 const STOP_EN = {
-  'Percorso Storico':['Historic Route','Giusy Bonaccorso — starts at the Sanctuary of the Chiesa della Lettera: 4 stops to the Chiesa del Carmine, on the seafront'],
+  'Percorso Storico':['Historic Route','Giusy Bonaccorsi — starts at the Sanctuary of the Chiesa della Lettera: 4 stops to the Chiesa del Carmine, on the seafront'],
   'Partenza':['Start','Beginning of the route on the Riposto seafront'],
   'Molo di Torre Archirafi':['Torre Archirafi pier','End of the route']
 };
@@ -1547,7 +1547,7 @@ const passo = trackLen / (ordine.length + 1);
 
 const stops = [
   {dist:null, type:'storia', name:'Percorso Storico', lat:37.732894, lng:15.205068,
-   desc:'Giusy Bonaccorso — parte dal Santuario della Chiesa della Lettera: 4 tappe fino alla Chiesa del Carmine, sul lungomare',
+   desc:'Giusy Bonaccorsi — parte dal Santuario della Chiesa della Lettera: 4 tappe fino alla Chiesa del Carmine, sul lungomare',
    url:'https://titanium-memory-f5d.notion.site/RIPOSTO-39baf2a3c03280898d84f86fc7ea8a7b'},
   {dist:0, type:'anchor', name:'Partenza', lat:track[0][0], lng:track[0][1], desc:'Inizio del percorso sul lungomare di Riposto'},
   ...ordine.map((n,i) => {
@@ -1583,9 +1583,9 @@ const portoStops = [
        desc:'Many wells and a spring supplied the great harbour shipyard of Mascali.'}},
   {lat:37.738857, lng:15.194556,
    it:{name:'Torri di Malogrado', period:'età araba · oggi scomparse',
-       desc:'Due torri gemelle costruite dagli Arabi per sorvegliare il porto e il traffico del legname dell’Etna. Oggi non restano più: la loro esistenza è testimoniata da una carta topografica d’epoca borbonica, sulla sponda settentrionale del torrente Macchia.'},
+       desc:'Due torri gemelle costruite dagli Arabi per sorvegliare il porto e il traffico del legname dell’Etna. Oggi non restano più: la loro esistenza è testimoniata da una carta topografica d’epoca borbonica, sulla sponda settentrionale del torrente Macchia. Sulla mappa è indicata la posizione presunta.'},
    en:{name:'Malogrado towers', period:'Arab age · no longer standing',
-       desc:'Twin towers built by the Arabs to watch over the harbour and the traffic of Etna timber. None remain today: their existence is attested by a Bourbon-era topographic map, on the northern bank of the Macchia stream.'}},
+       desc:'Twin towers built by the Arabs to watch over the harbour and the traffic of Etna timber. None remain today: their existence is attested by a Bourbon-era topographic map, on the northern bank of the Macchia stream. The map shows their presumed location.'}},
   {lat:37.741083, lng:15.204125,
    it:{name:'Il fiume e la darsena', period:'III–XIX sec. · torrente Macchia',
        desc:'Il Wadi, il fiume, era porto fluviale: carico del legname dell’Etna e cantiere navale, da cui il nome Dar-Sinah, corrotto in «Tarzanà». Nel Settecento un clima più secco lo trasformò in torrente.'},
