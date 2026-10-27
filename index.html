@@ -1445,7 +1445,7 @@ const SPECIE_EN = {
   'Boga':['Bogue','A small silvery fish with thin golden lines along its sides and large eyes. It lives in dense shoals close to shore.'],
   'Ricciola':['Greater amberjack','The largest jack of the Mediterranean: a slender, muscular body, blue-violet back and silvery sides with a golden sheen.'],
   'Gambero rosso':['Giant red shrimp','A crustacean of the deep muddy seabed, hundreds of metres below the surface, bright red even when alive.'],
-  'Merluzzo':['European hake','Locally called "merluzzo", it is in fact the hake: a long grey-silver body, a large mouth with sharp teeth and a black interior. Not to be confused with Atlantic cod.']
+  'Acciuga':['European anchovy','A small silvery fish that gathers in dense shoals near the surface. Caught at night with the lamp and nets, it is the everyday catch of Riposto\'s fishermen.']
 };
 const STOP_EN = {
   'Percorso Storico':['Historic Route','Giusy Bonaccorsi — starts at the Sanctuary of the Chiesa della Lettera: 4 stops to the Chiesa del Carmine, on the seafront'],
@@ -1497,9 +1497,9 @@ const specie = [
   {icon:'🦐', name:'Gambero rosso', dial:'Ammaru russu', sci:'Aristaeomorpha foliacea',
    desc:'Crostaceo dei fondali fangosi profondi, a centinaia di metri sotto la superficie, di un rosso intenso già da vivo.',
    url:'https://debonair-stilton-413.notion.site/3ec84f34c21981c6a860c71c30543ee8'},
-  {icon:'🐟', name:'Merluzzo', dial:'Mirluzzu', sci:'Merluccius merluccius',
-   desc:'È il nasello: corpo allungato grigio-argenteo, bocca grande con denti aguzzi e interno nero. Non va confuso con il merluzzo atlantico.',
-   url:'https://debonair-stilton-413.notion.site/3ec84f34c21981709092f88d6027aa46'},
+  {icon:'🐟', name:'Acciuga', dial:'Masculinu', sci:'Engraulis encrasicolus',
+   desc:'Piccolo pesce azzurro che forma grandi banchi vicino alla superficie. Pescato di notte con la lampara e le reti, è il pesce di tutti i giorni dei pescatori di Riposto.',
+   url:'https://debonair-stilton-413.notion.site/40684f34c21981e9bd4bf2cc9bfa4e09'},
 ];
 
 // Tracciato reale del percorso (punti presi da Google Maps), dalla partenza sul lungomare
@@ -1523,7 +1523,7 @@ const track = [
 // Per cambiare l'ordine basta spostare i nomi qui sotto: le posizioni sulla mappa
 // vengono ricalcolate da sole, a distanza uguale lungo il tracciato.
 const ordine = ['Polpo','Seppia','Scorfano','Sarago','Occhiata','Boga','Suro','Palamito',
-                'Ricciola','Alalunga','Tonno','Pesce spada','Pesce spatola','Merluzzo','Gambero rosso'];
+                'Ricciola','Alalunga','Tonno','Pesce spada','Pesce spatola','Acciuga','Gambero rosso'];
 
 function haversine(lat1,lng1,lat2,lng2){
   const R = 6371000, toRad = d => d*Math.PI/180;
@@ -1582,7 +1582,6 @@ const portoStops = [
    en:{name:'Saracen well, known as Roger’s well', period:'Arab and Norman age',
        desc:'Many wells and a spring supplied the great harbour shipyard of Mascali.'}},
   {lat:37.738857, lng:15.194556,
-     {lat:37.738857, lng:15.194556,
    it:{name:'Torri di Malogrado', period:'età araba · basamenti visibili',
        desc:'Due torri gemelle costruite dagli Arabi per sorvegliare il porto e il traffico del legname dell’Etna. Restano visibili i basamenti, che non sono accessibili perché si trovano in terreni privati. Dopo il crollo della parte superiore, i basamenti furono usati con impianti idraulici per portare l’acqua nel pozzo di ciascuna torre.'},
    en:{name:'Malogrado towers', period:'Arab age · bases still visible',
