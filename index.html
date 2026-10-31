@@ -68,6 +68,13 @@
   h1.title{font-family:var(--serif);font-weight:700;font-size:38px;line-height:1.08;margin:0 0 10px;}
   .subtitle{color:var(--blue);font-size:14.5px;line-height:1.5;margin:0 0 18px;max-width:340px;}
   .hero-cta{display:flex;gap:10px;flex-wrap:wrap;}
+  .hero-news{
+    display:inline-flex;align-items:center;gap:6px;
+    background:rgba(200,129,58,0.15);border:1px solid rgba(200,129,58,0.45);
+    color:var(--orange);font-size:11.5px;font-weight:600;
+    border-radius:20px;padding:6px 12px;margin-bottom:14px;
+    text-decoration:none;cursor:pointer;
+  }
   .btn{
     display:inline-flex;align-items:center;gap:6px;
     font-family:var(--sans);font-weight:600;font-size:13.5px;
@@ -227,6 +234,7 @@
       <div class="brandmark"><span class="dot"></span>MUSEO DIFFUSO DEL MARE</div>
       <div class="lang"><button id="lang-it" onclick="setLang('it')">IT</button><button id="lang-en" onclick="setLang('en')">EN</button></div>
     </div>
+    <a href="#" class="hero-news" onclick="showTab('evento');return false;" data-en="🎉 29 Oct 2026 — Riposto è Mare is born →">🎉 29 ott 2026 — Nasce Riposto è Mare →</a>
     <h1 class="title" data-en="The sea of Riposto,<br>one stop at a time.">Il mare di<br>Riposto, raccontato.</h1>
     <p class="subtitle" data-en="A permanent nature and heritage trail along the Ionian coast below Mount Etna, between the harbour of Riposto and Torre Archirafi.">Un percorso naturalistico-educativo permanente lungo il litorale jonico etneo, tra il porto e il belvedere di Torre Archirafi.</p>
     <div class="hero-cta">
@@ -288,14 +296,14 @@
   <!-- STORIA -->
   <section id="storia">
     <div class="section-label" data-en="THE HISTORIC ROUTE">IL PERCORSO STORICO</div>
-    <h2 class="section-title" data-en="The memory of the harbour">La memoria del porto</h2>
-    <p class="section-intro" data-en="Alongside the nature trail runs a second itinerary, devoted to the history of Riposto and its harbour.">Al percorso naturalistico si affianca un secondo itinerario, dedicato alla storia di Riposto e del suo porto.</p>
+    <h2 class="section-title" data-en="Four stops through the old town">Quattro tappe nel centro antico</h2>
+    <p class="section-intro" data-en="From the Sanctuary of the Sacra Lettera to Largo Bagni, through Riposto's old town — curated by Giusy Bonaccorsi.">Dal Santuario della Sacra Lettera a Largo Bagni, nel centro antico di Riposto — a cura di Giusy Bonaccorsi.</p>
 
     <div class="map-wrap">
       <div id="map-giusy"></div>
     </div>
     <div class="steps" id="steps-giusy"></div>
-    <div class="note-box" data-en="📍 The four real stops of Giusy Bonaccorsi's Historic Route, from the Sanctuary of the Sacra Lettera to Largo Bagni, in Riposto's old town — from her degree thesis (Genoa, 2025). Full text on the linked Notion page.">📍 Le quattro tappe reali del Percorso Storico di Giusy Bonaccorsi, dal Santuario della Sacra Lettera a Largo Bagni, nel centro antico di Riposto — dalla sua tesi di laurea (Genova, 2025). Testo completo sulla pagina Notion collegata.</div>
+    <div class="note-box" data-en="📍 The four real stops of Giusy Bonaccorsi's Historic Route, from the Sanctuary of the Sacra Lettera to Largo Bagni, in Riposto's old town — from her degree thesis (Genoa, 2025). <a href=&quot;https://titanium-memory-f5d.notion.site/RIPOSTO-39baf2a3c03280898d84f86fc7ea8a7b&quot; target=&quot;_blank&quot; style=&quot;color:var(--orange);font-weight:600;&quot;>Full text on Notion →</a>">📍 Le quattro tappe reali del Percorso Storico di Giusy Bonaccorsi, dal Santuario della Sacra Lettera a Largo Bagni, nel centro antico di Riposto — dalla sua tesi di laurea (Genova, 2025). <a href="https://titanium-memory-f5d.notion.site/RIPOSTO-39baf2a3c03280898d84f86fc7ea8a7b" target="_blank" style="color:var(--orange);font-weight:600;">Testo completo su Notion →</a></div>
 
     <div class="section-label" data-en="THE ANCIENT HARBOUR OF MASCALI">IL PORTO ANTICO DI MASCALI</div>
     <h2 class="section-title" data-en="Millennia of history">Millenni di storia</h2>
@@ -305,15 +313,6 @@
     </div>
     <div class="steps" id="steps-porto"></div>
         <div class="note-box" data-en="📍 The Malogrado towers no longer stand: their bases are still visible, on private land and not accessible. The map shows their presumed location. Texts from the material of architect Santa Sorbello.">📍 Le torri di Malogrado non sono più in piedi: restano visibili i basamenti, in terreni privati e non accessibili. Sulla mappa è indicata la posizione presunta. Testi dal materiale dell’arch. Santa Sorbello.</div>
-
-    <div class="card">
-      <div class="card-top">
-        <div class="card-icon">⛪</div>
-        <div><p class="card-name" data-en="Historic Route">Percorso Storico</p><p class="card-meta" data-en="Curated by Giusy Bonaccorsi">A cura di Giusy Bonaccorsi</p></div>
-      </div>
-      <p class="card-desc" data-en="Four stops from the Sanctuary of the Sacra Lettera to Largo Bagni, skirting the harbour — from Giusy Bonaccorsi's degree thesis (Genoa, 2025). Now mapped above, with all 4 stops.">Quattro tappe dal Santuario della Sacra Lettera a Largo Bagni, costeggiando il porto — dalla tesi di laurea di Giusy Bonaccorsi (Genova, 2025). Ora sulla mappa qui sopra, con tutte le 4 tappe.</p>
-      <a class="card-link" href="https://titanium-memory-f5d.notion.site/RIPOSTO-39baf2a3c03280898d84f86fc7ea8a7b" target="_blank" data-en="Open the historic route (in Italian) →">Scopri il percorso storico →</a>
-    </div>
 
     <div class="card">
       <div class="card-top">
