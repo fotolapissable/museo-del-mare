@@ -152,7 +152,7 @@
   footer a{color:var(--orange);text-decoration:none;font-weight:600;}
   .divider{height:1px;background:rgba(200,129,58,0.3);margin:22px 0;}
 
-  #map, #map-porto{
+  #map, #map-porto, #map-giusy{
     width:100%;height:460px;border-radius:14px;overflow:hidden;
     border:1px solid rgba(143,165,182,0.3);margin-bottom:12px;
   }
@@ -272,7 +272,7 @@
       <a class="btn btn-primary" style="padding:9px 14px;font-size:12.5px;white-space:nowrap;" href="https://forms.gle/eZYt3U1odujGpnPP7" target="_blank" rel="noopener" data-en="Have your say">Di’ la tua</a>
     </div>
 
-    <div class="note-box" data-en="📍 The Historic Route marker shows where Giusy Bonaccorsi's itinerary begins, at the Sanctuary of the Chiesa della Lettera: from there it winds through the old town to the Chiesa del Carmine, on the seafront.">📍 Il marker del Percorso Storico segna la partenza dell'itinerario di Giusy Bonaccorsi, al Santuario della Chiesa della Lettera: da lì si snoda nel centro antico fino alla Chiesa del Carmine, sul lungomare.</div>
+    <div class="note-box" data-en="📍 The blue marker shows where Giusy Bonaccorsi's Historic Route reaches the seafront. The route itself, with its 4 stops from the Sanctuary of the Sacra Lettera through the old town, is mapped below in the 'Historic Route' section.">📍 Il marker blu segna il punto dove il Percorso Storico di Giusy Bonaccorsi raggiunge il lungomare. Il percorso completo, con le sue 4 tappe dal Santuario della Sacra Lettera nel centro antico, è sulla mappa qui sotto, nella sezione "Percorso Storico".</div>
 
     <div class="steps" id="steps-list"></div>
   </section>
@@ -291,6 +291,12 @@
     <h2 class="section-title" data-en="The memory of the harbour">La memoria del porto</h2>
     <p class="section-intro" data-en="Alongside the nature trail runs a second itinerary, devoted to the history of Riposto and its harbour.">Al percorso naturalistico si affianca un secondo itinerario, dedicato alla storia di Riposto e del suo porto.</p>
 
+    <div class="map-wrap">
+      <div id="map-giusy"></div>
+    </div>
+    <div class="steps" id="steps-giusy"></div>
+    <div class="note-box" data-en="📍 The four real stops of Giusy Bonaccorsi's Historic Route, from the Sanctuary of the Sacra Lettera to Largo Bagni, in Riposto's old town — from her degree thesis (Genoa, 2025). Full text on the linked Notion page.">📍 Le quattro tappe reali del Percorso Storico di Giusy Bonaccorsi, dal Santuario della Sacra Lettera a Largo Bagni, nel centro antico di Riposto — dalla sua tesi di laurea (Genova, 2025). Testo completo sulla pagina Notion collegata.</div>
+
     <div class="section-label" data-en="THE ANCIENT HARBOUR OF MASCALI">IL PORTO ANTICO DI MASCALI</div>
     <h2 class="section-title" data-en="Millennia of history">Millenni di storia</h2>
     <p class="section-intro" data-en="From the mountain to the sea: six stops in the ancient river port and shipyard of Mascali, told by architect Santa Sorbello.">Dal monte al mare: sei tappe nell’antico porto fluviale e cantieristico di Mascali, raccontato dall’arch. Santa Sorbello.</p>
@@ -305,7 +311,7 @@
         <div class="card-icon">⛪</div>
         <div><p class="card-name" data-en="Historic Route">Percorso Storico</p><p class="card-meta" data-en="Curated by Giusy Bonaccorsi">A cura di Giusy Bonaccorsi</p></div>
       </div>
-      <p class="card-desc" data-en="Four stops from the Chiesa della Lettera to the Chiesa del Carmine, skirting the harbour — from Giusy Bonaccorsi's degree thesis (Genoa, 2025).">Quattro tappe dalla Chiesa della Lettera alla Chiesa del Carmine, costeggiando il porto — dalla tesi di laurea di Giusy Bonaccorsi (Genova, 2025).</p>
+      <p class="card-desc" data-en="Four stops from the Sanctuary of the Sacra Lettera to Largo Bagni, skirting the harbour — from Giusy Bonaccorsi's degree thesis (Genoa, 2025). Now mapped above, with all 4 stops.">Quattro tappe dal Santuario della Sacra Lettera a Largo Bagni, costeggiando il porto — dalla tesi di laurea di Giusy Bonaccorsi (Genova, 2025). Ora sulla mappa qui sopra, con tutte le 4 tappe.</p>
       <a class="card-link" href="https://titanium-memory-f5d.notion.site/RIPOSTO-39baf2a3c03280898d84f86fc7ea8a7b" target="_blank" data-en="Open the historic route (in Italian) →">Scopri il percorso storico →</a>
     </div>
 
@@ -1448,7 +1454,7 @@ const SPECIE_EN = {
   'Acciuga':['European anchovy','A small silvery fish that gathers in dense shoals near the surface. Caught at night with the lamp and nets, it is the everyday catch of Riposto\'s fishermen.']
 };
 const STOP_EN = {
-  'Percorso Storico':['Historic Route','Giusy Bonaccorsi — starts at the Sanctuary of the Chiesa della Lettera: 4 stops to the Chiesa del Carmine, on the seafront'],
+  'Percorso Storico':['Historic Route','Giusy Bonaccorsi — reaches the seafront here; the full route with its 4 stops is mapped in the Historic Route section'],
   'Partenza':['Start','Beginning of the route on the Riposto seafront'],
   'Molo di Torre Archirafi':['Torre Archirafi pier','End of the route']
 };
@@ -1546,8 +1552,8 @@ function pointAt(d){
 const passo = trackLen / (ordine.length + 1);
 
 const stops = [
-  {dist:null, type:'storia', name:'Percorso Storico', lat:37.732894, lng:15.205068,
-   desc:'Giusy Bonaccorsi — parte dal Santuario della Chiesa della Lettera: 4 tappe fino alla Chiesa del Carmine, sul lungomare',
+  {dist:null, type:'storia', name:'Percorso Storico', lat:37.72973788763594, lng:15.207192328738394,
+   desc:'Giusy Bonaccorsi — raggiunge qui il lungomare; il percorso completo con le 4 tappe è sulla mappa nella sezione Percorso Storico',
    url:'https://titanium-memory-f5d.notion.site/RIPOSTO-39baf2a3c03280898d84f86fc7ea8a7b'},
   {dist:0, type:'anchor', name:'Partenza', lat:track[0][0], lng:track[0][1], desc:'Inizio del percorso sul lungomare di Riposto'},
   ...ordine.map((n,i) => {
@@ -1630,6 +1636,55 @@ function initMapPorto(){
     });
   });
   if (pins.length) mapPorto.fitBounds(pins, {padding:[34,34], maxZoom:15});
+}
+
+// ==========================================
+// PERCORSO STORICO DI GIUSY BONACCORSI (centro antico di Riposto)
+// 4 tappe reali, coordinate fornite da Michele il 31/10/2026.
+// Testo completo sulla pagina Notion collegata; qui solo nome e sequenza.
+// ==========================================
+const giusyStops = [
+  {lat:37.73336191535298, lng:15.204932656875133,
+   it:{name:'Santuario della Sacra Lettera'}, en:{name:'Sanctuary of the Sacra Lettera'}},
+  {lat:37.73211882770131, lng:15.205902042271315,
+   it:{name:'Monumento dei Caduti in Mare'}, en:{name:'Monument to the Fallen at Sea'}},
+  {lat:37.72970251702882, lng:15.206860489479576,
+   it:{name:'Largo Carmine — qui si trovava la Torre la Fuille'}, en:{name:'Largo Carmine — site of the former Torre la Fuille'}},
+  {lat:37.72973788763594, lng:15.207192328738394,
+   it:{name:'Croce di Largo Bagni'}, en:{name:'Cross of Largo Bagni'}},
+];
+const giusyUrl = 'https://titanium-memory-f5d.notion.site/RIPOSTO-39baf2a3c03280898d84f86fc7ea8a7b';
+const giusyLinkTxt = () => LANG === 'en' ? 'Open the historic route (in Italian) →' : 'Scopri il percorso storico →';
+let mapGiusy = null;
+function giusyPopup(s, i){
+  const L_ = LANG === 'en' ? 'en' : 'it';
+  return `<b>${i+1}. ${s[L_].name}</b>Percorso Storico · Giusy Bonaccorsi<br><a href="${giusyUrl}" target="_blank">${giusyLinkTxt()}</a>`;
+}
+function renderGiusy(){
+  const L_ = LANG === 'en' ? 'en' : 'it';
+  const el = document.getElementById('steps-giusy');
+  if (el) el.innerHTML = giusyStops.map((s,i) => `
+    <div class="step">
+      ${i < giusyStops.length-1 ? '<div class="step-line"></div>' : ''}
+      <div class="step-dot" style="font-weight:700;font-size:14px;">${i+1}</div>
+      <div class="step-body"><b>${s[L_].name}</b></div>
+    </div>`).join('');
+  giusyStops.forEach((s,i) => { if (s.marker) s.marker.setPopupContent(giusyPopup(s,i)); });
+}
+function initMapGiusy(){
+  if (mapGiusy || typeof L === 'undefined') return;
+  mapGiusy = L.map('map-giusy', {zoomControl:true});
+  mapGiusy.attributionControl.setPrefix(false);
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {maxZoom:19, attribution:'© <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>'}).addTo(mapGiusy);
+  const pts = [];
+  giusyStops.forEach((s,i) => {
+    pts.push([s.lat, s.lng]);
+    const m = L.marker([s.lat, s.lng], {icon: L.divIcon({className:'', html:`<div class="mk-stop mk-storia">${i+1}</div>`, iconSize:[24,24], iconAnchor:[12,12]})}).addTo(mapGiusy);
+    m.bindPopup(giusyPopup(s,i));
+    s.marker = m;
+  });
+  if (pts.length) mapGiusy.fitBounds(pts, {padding:[34,34], maxZoom:16});
+  L.polyline(pts, {color:'#6FA8BF', weight:2.5, opacity:0.8, dashArray:'4,6'}).addTo(mapGiusy);
 }
 
 const list = document.getElementById('specie-list');
@@ -1855,8 +1910,9 @@ function showTab(name){
     setTimeout(() => { if (map) map.invalidateSize(); }, 60);
   }
   if (name === 'storia') {
+    initMapGiusy();
     initMapPorto();
-    setTimeout(() => { if (mapPorto) mapPorto.invalidateSize(); }, 60);
+    setTimeout(() => { if (mapGiusy) mapGiusy.invalidateSize(); if (mapPorto) mapPorto.invalidateSize(); }, 60);
   }
 }
 
@@ -1925,7 +1981,7 @@ function setLang(l){
   document.getElementById('avvisi-btn').textContent = watchId !== null ? t('alertsOn') : t('alerts');
   document.getElementById('install-text').textContent = isIOS ? t('installIOS') : t('install');
   document.getElementById('nearest-box').classList.remove('show');
-  renderSpecie(); renderSteps(); renderPorto();
+  renderSpecie(); renderSteps(); renderGiusy(); renderPorto();
   stops.forEach(s => { if (s.marker) s.marker.setPopupContent(popupHtml(s)); });
   try { aggiornaAstro(); } catch(e){}
 }
