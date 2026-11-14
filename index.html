@@ -117,6 +117,7 @@
   }
   .step-body b{display:block;font-size:14.5px;margin-bottom:2px;}
   .step-body span{font-size:12.5px;color:var(--grayblue);}
+  .step-body a{color:var(--orange);font-weight:600;text-decoration:none;}
 
   /* cards */
   .card{
@@ -1627,9 +1628,11 @@ const portoStops = [
        desc:'On the shore a lighthouse-chapel was built: together with S. Maria La Strada it created a line of sight and signals guaranteeing the anchorage. In the 16th century the engineer Spannocchi sighted a small tower beside it.'}}
 ];
 let mapPorto = null;
+const portoUrl = 'https://debonair-stilton-413.notion.site/40684f34c21981aa81cbcc200f6b4876';
+const portoLinkTxt = () => LANG === 'en' ? 'Open the full page (in Italian) →' : 'Scopri la scheda →';
 function portoPopup(s, i){
   const L_ = LANG === 'en' ? 'en' : 'it';
-  return `<b>${i+1}. ${s[L_].name}</b>${s[L_].period}`;
+  return `<b>${i+1}. ${s[L_].name}</b>${s[L_].period}<br><a href="${portoUrl}" target="_blank" rel="noopener">${portoLinkTxt()}</a>`;
 }
 function renderPorto(){
   const L_ = LANG === 'en' ? 'en' : 'it';
@@ -1638,7 +1641,7 @@ function renderPorto(){
     <div class="step">
       ${i < portoStops.length-1 ? '<div class="step-line"></div>' : ''}
       <div class="step-dot" style="font-weight:700;font-size:14px;">${i+1}</div>
-      <div class="step-body"><b>${s[L_].name}</b><span>${s[L_].period} — ${s[L_].desc}</span></div>
+      <div class="step-body"><b>${s[L_].name}</b><span>${s[L_].period} — ${s[L_].desc}</span><span><a href="${portoUrl}" target="_blank" rel="noopener">${portoLinkTxt()}</a></span></div>
     </div>`).join('');
   portoStops.forEach((s,i) => { if (s.marker) s.marker.setPopupContent(portoPopup(s,i)); });
 }
@@ -1690,7 +1693,7 @@ function renderGiusy(){
     <div class="step">
       ${i < giusyStops.length-1 ? '<div class="step-line"></div>' : ''}
       <div class="step-dot" style="font-weight:700;font-size:14px;">${i+1}</div>
-      <div class="step-body"><b>${s[L_].name}</b></div>
+      <div class="step-body"><b>${s[L_].name}</b><span><a href="${giusyUrl}" target="_blank" rel="noopener">${giusyLinkTxt()}</a></span></div>
     </div>`).join('');
   giusyStops.forEach((s,i) => { if (s.marker) s.marker.setPopupContent(giusyPopup(s,i)); });
 }
